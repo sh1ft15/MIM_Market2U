@@ -1,3 +1,60 @@
 <resources>
     <string name="app_name">Market2U</string>
+    <string name="name">Name</string>
+    <string name="address">Address</string>
+    <string name="postcode">Postcode</string>
+    <string name="city">City</string>
+    <string name="province">Province</string>
+    <string name="mobileNum">Mobile Number</string>
+    <string name="billOtherAddress">Bill to a different address</string>
+    <string name="billAddress">Billing Address</string>
+    <string name="shippingDetails">Shipping Details</string>
+    <string name="search_title">Search</string>
+    <string name="search_hint">Search</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="app_not_available">Sorry, there\'s no web browser available</string>
+    <string name="web_search">Web search</string>
+    <string name="homeTitle">Home</string>
+    <string name="accountTitle">My Account</string>
+    <string name="orderTitle">My Order</string>
+    <string name="cartTitle">Shopping Cart</string>
+    <string name="notificationTitle">Notification</string>
+    <string name="settingsTitle">Settings</string>
+
+    <string-array name="spinnerProvince">
+        <item>Johor</item>
+        <item>Kedah</item>
+        <item>Kelantan</item>
+        <item>Melaka</item>
+        <item>Negeri Sembilan</item>
+        <item>Pahang</item>
+        <item>Perak</item>
+        <item>Perlis</item>
+        <item>Pulau Pinang</item>
+        <item>Sarawak</item>
+        <item>Selangor</item>
+        <item>Terengganu</item>
+        <item>Kuala Lumpur</item>
+        <item>Labuan</item>
+        <item>Sabah</item>
+        <item>Putrajaya</item>
+    </string-array>
+
+    <string-array name="planets_array">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+        <item>Jupiter</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
+    </string-array>
+    <string name="title_activity_product_menu">Market2U</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>
