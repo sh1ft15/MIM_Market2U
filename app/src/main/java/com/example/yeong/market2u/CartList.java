@@ -43,5 +43,14 @@ public class CartList extends AppCompatActivity {
             }
         });
 
+        // NEXT
+        next_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(CartList.this, Checkout.class);
+                startActivity(i);
+            }
+        });
+
     }
 }
