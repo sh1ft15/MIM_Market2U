@@ -12,6 +12,7 @@ public class Checkout extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
+        setTitle("Checkout");
 
         Button cancel_btn = (Button) findViewById(R.id.checkout_cancel_btn);
 
