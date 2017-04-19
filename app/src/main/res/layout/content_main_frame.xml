@@ -5,7 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.yeong.market2u.MIM_SearchProduct.ProductMenuActivity"
-    tools:showIn="@layout/app_bar_product_menu">
+    tools:context="com.example.yeong.market2u.MIM_SearchProduct.MainFrameActivity"
+    tools:showIn="@layout/app_bar_main_frame">
+
+    <LinearLayout
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/MainFrameContainer"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="8dp" />
 
 </android.support.constraint.ConstraintLayout>
