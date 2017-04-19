@@ -15,13 +15,13 @@ import android.view.MenuItem;
 
 import com.example.yeong.market2u.R;
 
-public class ProductMenuActivity extends AppCompatActivity
+public class MainFrameActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_product_menu);
+        setContentView(R.layout.activity_main_frame);
 
         // For navigation drawer
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -44,6 +44,10 @@ public class ProductMenuActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        // Initiate
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.MainFrameContainer,new ProductMenuFragment()).commit();
     }
 
     // Done
@@ -75,11 +79,12 @@ public class ProductMenuActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
 
-        /* This is for setting button
-        if (id == R.id.action_settings) {
-            return true;
+        // This is for setting button
+        if (id == R.id.search) {
+            MenuItem cartIcon = (MenuItem)findViewById(R.id.cart);
+            cartIcon.setVisible(false);
         }
-    `   */
+
         return super.onOptionsItemSelected(item);
     }
 

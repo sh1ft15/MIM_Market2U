@@ -21,6 +21,10 @@
     <string name="cartTitle">Shopping Cart</string>
     <string name="notificationTitle">Notification</string>
     <string name="settingsTitle">Settings</string>
+    <string name="addToCart">Add to Cart</string>
+    <string name="description">Description</string>
+    <string name="review">Reviews &amp; Ratings</string>
+    <string name="addReview">Add a review</string>
 
     <string-array name="spinnerProvince">
         <item>Johor</item>
@@ -57,4 +61,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
