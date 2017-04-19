@@ -1,10 +1,13 @@
-package com.example.yeong.market2u;
+package com.example.yeong.market2u.MIM_ManagePayment;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.yeong.market2u.MIM_OrderProduct.CartList;
+import com.example.yeong.market2u.R;
 
 public class Checkout extends AppCompatActivity {
 

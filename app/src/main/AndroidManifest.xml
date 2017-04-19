@@ -14,17 +14,19 @@
             android:name=".MIM_SearchProduct.MainFrameActivity"
             android:label="@string/title_activity_product_menu"
             android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity android:name=".MIM_SearchProduct.ProductList" >
+        </activity>
+        <activity android:name=".MIM_OrderProduct.CartList" >
+        </activity>
+        <activity android:name=".MIM_ManagePayment.Checkout">
+        </activity>
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".ProductList" >
-        </activity>
-        <activity android:name=".CartList" >
-        </activity>
-        <activity android:name=".Checkout">
         </activity>
     </application>
 

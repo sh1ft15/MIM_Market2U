@@ -1,4 +1,4 @@
-package com.example.yeong.market2u;
+package com.example.yeong.market2u.MIM_SearchProduct;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.yeong.market2u.MIM_Model.ProductModel;
+import com.example.yeong.market2u.R;
 
 import java.util.ArrayList;
 

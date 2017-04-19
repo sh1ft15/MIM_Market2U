@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.yeong.market2u.Checkout">
+    tools:context="com.example.yeong.market2u.MIM_ManagePayment.Checkout">
 
     <LinearLayout
         android:layout_width="match_parent"
