@@ -41,6 +41,9 @@ public class ProductListAdapter extends ArrayAdapter<ProductModel>{
         TextView priceTextView = (TextView) listItemView.findViewById(R.id.price_tag);
         priceTextView.setText("RM " + Double.toString(product_model.getProductPrice()));
 
+        TextView quantityTextView = (TextView) listItemView.findViewById(R.id.quantity_tag);
+        quantityTextView.setText(Integer.toString(product_model.getProductQuantity()));
+
 
         return listItemView;
     }
