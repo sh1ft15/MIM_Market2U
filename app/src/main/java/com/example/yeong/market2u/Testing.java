@@ -20,10 +20,7 @@ public class Testing extends AppCompatActivity {
 
         TextView id = (TextView)findViewById(R.id.textToDisplay);
 
-        Intent intent = getIntent();
-        String key = intent.getStringExtra("userKey");
-
-        id.setText(key);
+        id.setText(getIntent().getStringExtra("userKey"));
 
         Button btnSignOut = (Button)findViewById(R.id.btnSignOut);
 
