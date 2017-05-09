@@ -7,7 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.example.yeong.market2u.MIM_Model.ProductModel;
+import com.example.yeong.market2u.MIM_Model.Product_Model;
 import com.example.yeong.market2u.R;
 
 import java.util.ArrayList;
@@ -24,13 +24,14 @@ public class ProductList extends AppCompatActivity {
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
 
-        ProductModel products = new ProductModel(this.getApplicationContext());
+
+        Product_Model products = new Product_Model(this.getApplicationContext());
 
         ListView listView = (ListView) findViewById(R.id.product_list_view);
         EditText searchInput = (EditText) findViewById(R.id.search_product_input);
         Button searchBtn = (Button) findViewById(R.id.search_product_btn);
 
-        ArrayList<ProductModel> product_models = products.all();
+        ArrayList<Product_Model> product_models = products.all();
         ProductListAdapter adapter = new ProductListAdapter(this,product_models );
         listView.setAdapter(adapter);
 

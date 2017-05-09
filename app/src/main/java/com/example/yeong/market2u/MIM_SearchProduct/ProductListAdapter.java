@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.yeong.market2u.MIM_Model.ProductModel;
+import com.example.yeong.market2u.MIM_Model.Product_Model;
 import com.example.yeong.market2u.R;
 
 import java.util.ArrayList;
@@ -16,9 +16,9 @@ import java.util.ArrayList;
  * Created by Banana on 4/18/2017.
  */
 
-public class ProductListAdapter extends ArrayAdapter<ProductModel>{
+public class ProductListAdapter extends ArrayAdapter<Product_Model>{
 
-    public ProductListAdapter(Activity context, ArrayList<ProductModel> product_models) {
+    public ProductListAdapter(Activity context, ArrayList<Product_Model> product_models) {
 
         super(context, 0, product_models);
     }
@@ -33,7 +33,7 @@ public class ProductListAdapter extends ArrayAdapter<ProductModel>{
                     R.layout.product_list_content, parent, false);
         }
 
-        ProductModel product_model = getItem(position);
+        Product_Model product_model = getItem(position);
 
         TextView nameTextView = (TextView) listItemView.findViewById(R.id.name_tag);
         nameTextView.setText(product_model.getProductName());

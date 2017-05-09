@@ -1,0 +1,63 @@
+package com.example.yeong.market2u.MIM_Authentication;
+
+import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.example.yeong.market2u.MIMController;
+import com.example.yeong.market2u.R;
+
+public class SignInActivity extends AppCompatActivity {
+
+    private MIMController controller = new MIMController();
+    private Context signInContext = SignInActivity.this;
+
+    private EditText mEmailField;
+    private EditText mPasswordField;
+    private Button mSignInButton;
+    private TextView mSignUpButton;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sign_in);
+
+        // Views
+        mEmailField = (EditText) findViewById(R.id.txtEmail);
+        mPasswordField = (EditText) findViewById(R.id.txtPassword);
+        mSignInButton = (Button) findViewById(R.id.btnSignIn);
+        mSignUpButton = (TextView) findViewById(R.id.TextViewSignUp);
+
+        // Click listeners
+        mSignInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                controller.signInProcess(mEmailField, mPasswordField, signInContext);
+            }
+        });
+
+        mSignUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                controller.navigateTo(signInContext, SignUpActivity.class);
+            }
+        });
+
+    }
+
+/*
+        @Override
+        public void onStart() {
+            super.onStart();
+
+            // Check auth on Activity start by UserModel through Controller
+            if (mAuth.getCurrentUser() != null) {
+                //onAuthSuccess(mAuth.getCurrentUser());
+            }
+        }
+*/
+}
