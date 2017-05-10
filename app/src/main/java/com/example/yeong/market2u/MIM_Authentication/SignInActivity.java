@@ -8,12 +8,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.yeong.market2u.MIMController;
+import com.example.yeong.market2u.MIM_Controller.MIMController;
 import com.example.yeong.market2u.R;
 
 public class SignInActivity extends AppCompatActivity {
-
-    private MIMController controller = new MIMController();
+    private MIMController controller = MIMController.getInstance();
     private Context signInContext = SignInActivity.this;
 
     private EditText mEmailField;

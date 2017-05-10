@@ -7,19 +7,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.yeong.market2u.MIMController;
+import com.example.yeong.market2u.MIM_Controller.MIMController;
 import com.example.yeong.market2u.R;
 
 public class SignUpActivity extends AppCompatActivity {
+
+    private MIMController controller = MIMController.getInstance();
+    private Context signUpContext = SignUpActivity.this;
 
     private EditText mEmailField;
     private EditText mPasswordField;
     private EditText mFirstName;
     private EditText mLastName;
     private Button mSignUpButton;
-
-    private MIMController controller = new MIMController();
-    private Context signUpContext = SignUpActivity.this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

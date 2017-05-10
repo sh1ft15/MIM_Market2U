@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.yeong.market2u.MIM_Authentication.SignInActivity;
+import com.example.yeong.market2u.MIM_ManageProduct.AddProductActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class Testing extends AppCompatActivity {
@@ -31,6 +32,14 @@ public class Testing extends AppCompatActivity {
 
                 Intent backToSignInIntent = new Intent(Testing.this,SignInActivity.class);
                 startActivity(backToSignInIntent);
+            }
+        });
+
+        Button btnAddProduct = (Button) findViewById(R.id.btnGoToAddProduct);
+        btnAddProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Testing.this, AddProductActivity.class));
             }
         });
     }

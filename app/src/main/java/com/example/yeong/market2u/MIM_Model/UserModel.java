@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.example.yeong.market2u.MIMController;
+import com.example.yeong.market2u.MIM_Controller.MIMController;
 import com.example.yeong.market2u.Testing;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -17,7 +17,8 @@ import com.google.firebase.database.FirebaseDatabase;
  * Created by yeong on 26/4/2017.
  */
 
-public class UserModel {
+public final class UserModel {
+    private static volatile UserModel instance;
 
     private String userKey;
     private String emailAddress;
@@ -30,11 +31,11 @@ public class UserModel {
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
-    public UserModel() {
+    private UserModel() {
 
     }
 
-    public UserModel(String emailAddress, String firstName, String lastName) {
+    private UserModel(String emailAddress, String firstName, String lastName) {
         this.emailAddress = emailAddress;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -43,60 +44,71 @@ public class UserModel {
         this.storeName = null;
     }
 
-    public void setUserKey(String UserKey) {
-        this.userKey = UserKey;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setDefaultShippingAddress(String defaultShippingAddress) {
-        this.defaultShippingAddress = defaultShippingAddress;
-    }
-
-    public void setSellerStatus(Boolean sellerStatus) {
-        this.sellerStatus = sellerStatus;
-    }
-
-    public void setStoreName(String storeName) {
-        this.storeName = storeName;
+    public static UserModel getInstance() {
+        if (instance == null) {
+            synchronized (MIMController.class) {
+                if (instance == null) {
+                    instance = new UserModel();
+                }
+            }
+        }
+        return instance;
     }
 
     public String getUserKey() {
         return userKey;
     }
 
+    public void setUserKey(String UserKey) {
+        this.userKey = UserKey;
+    }
+
     public String getEmailAddress() {
         return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
     public String getLastName() {
         return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getDefaultShippingAddress() {
         return defaultShippingAddress;
     }
 
+    public void setDefaultShippingAddress(String defaultShippingAddress) {
+        this.defaultShippingAddress = defaultShippingAddress;
+    }
+
     public Boolean getSellerStatus() {
         return sellerStatus;
     }
 
+    public void setSellerStatus(Boolean sellerStatus) {
+        this.sellerStatus = sellerStatus;
+    }
+
     public String getStoreName() {
         return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
     }
 
     // Create a user in Firebase Authentication using email and password

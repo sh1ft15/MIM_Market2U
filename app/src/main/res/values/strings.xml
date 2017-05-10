@@ -25,6 +25,13 @@
     <string name="description">Description</string>
     <string name="review">Reviews &amp; Ratings</string>
     <string name="addReview">Add a review</string>
+    <string name="productName">Product Name</string>
+    <string name="productDescription">Product Description</string>
+    <string name="productRemainingQuantity">Product Quantity</string>
+    <string name="productPrice">Price (RM)</string>
+    <string name="addProduct">Add Product</string>
+    <string name="previewProduct">Preview Product</string>
+    <string name="addProductPhoto">Add Photo</string>
 
     <string-array name="spinnerProvince">
         <item>Johor</item>
