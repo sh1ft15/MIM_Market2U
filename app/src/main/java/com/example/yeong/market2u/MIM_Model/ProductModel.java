@@ -2,21 +2,24 @@ package com.example.yeong.market2u.MIM_Model;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 
+import com.example.yeong.market2u.MIM_Controller.MIMController;
+import com.example.yeong.market2u.MIM_SearchProduct.ProductDetailsActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-/**
- * Created by yeong on 26/4/2017.
- */
-
-public class ProductModel {
+public final class ProductModel {
+    private static final String TAG = "Product Model";
     private static volatile ProductModel instance;
-
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Product");
     private StorageReference mStorage = FirebaseStorage.getInstance().getReference("Product Image");
 
@@ -27,6 +30,7 @@ public class ProductModel {
     private double productPrice;
     private String productImageUrl;
     private String userKey;
+    private Object[] productDetails = new Object[5];
 
     public ProductModel() {
 
@@ -132,5 +136,42 @@ public class ProductModel {
                         mDatabase.child(getProductID()).setValue(product);
                     }
                 });
+    }
+
+    public void retrieveProduct(final String productID, final Context context) {
+        Query query = mDatabase.orderByKey();
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+
+                    if (postSnapshot.getKey().equals(productID)) {
+                        ProductModel productFromDatabase = postSnapshot.getValue(ProductModel.class);
+
+                        setProductName(productFromDatabase.productName);
+                        setProductDescription(productFromDatabase.productDescription);
+                        setProductRemainingQuantity(productFromDatabase.productRemainingQuantity);
+                        setProductPrice(productFromDatabase.productPrice);
+                        setProductImageUrl(productFromDatabase.productImageUrl);
+
+                        productDetails[0] = getProductName();
+                        productDetails[1] = getProductDescription();
+                        productDetails[2] = getProductPrice();
+                        productDetails[3] = getProductRemainingQuantity();
+                        productDetails[4] = getProductImageUrl();
+                    }
+                }
+
+                MIMController.navigateTo(context, ProductDetailsActivity.class, "productDetails", productDetails);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.e(TAG, "Failed to read user", error.toException());
+            }
+        });
     }
 }

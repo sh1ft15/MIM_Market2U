@@ -7,8 +7,10 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.yeong.market2u.MIM_Authentication.SignInActivity;
+import com.example.yeong.market2u.MIM_Controller.MIMController;
 import com.example.yeong.market2u.MIM_OrderProduct.CartList;
 import com.example.yeong.market2u.MIM_SearchProduct.MainFrameActivity;
+import com.example.yeong.market2u.MIM_SearchProduct.ProductDetailsActivity;
 import com.example.yeong.market2u.MIM_SearchProduct.ProductList;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         Button cart_list_btn = (Button) findViewById(R.id.cart_list_btn);
         Button btnProductMenu = (Button) findViewById(R.id.btnProductMenu);
         Button btnSignIn = (Button) findViewById(R.id.btnSignIn);
+        Button btnRetrieveProduct = (Button) findViewById(R.id.btnRetrieveProduct);
 
         product_list_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +55,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, SignInActivity.class);
                 startActivity(i);
+            }
+        });
+
+        btnRetrieveProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MIMController.getInstance().retrieveProductProcess(MainActivity.this);
             }
         });
     }

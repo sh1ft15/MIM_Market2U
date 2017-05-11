@@ -42,9 +42,15 @@ public final class MIMController {
     }
 
     public static void navigateTo(Context origin, Class destination,
-                                  String extraString, String extraValue) {
+                                  String extraName, Object[] extraObjectArray) {
         origin.startActivity(new Intent(origin, destination)
-                .putExtra(extraString, extraValue));
+                .putExtra(extraName, extraObjectArray));
+    }
+
+    public static void navigateTo(Context origin, Class destination,
+                                  String extraName, String extraValue) {
+        origin.startActivity(new Intent(origin, destination)
+                .putExtra(extraName, extraValue));
     }
 
     public void signInProcess(EditText mEmailField, EditText mPasswordField, Context context) {
@@ -197,5 +203,9 @@ public final class MIMController {
     public void previewProductProcess() {
 
     }
-    
+
+    public void retrieveProductProcess(Context context) {
+        showProgressDialog(context);
+        product.retrieveProduct("-KjlJPlMTkN-1b0xKfn0", context);
+    }
 }

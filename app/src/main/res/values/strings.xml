@@ -32,6 +32,7 @@
     <string name="addProduct">Add Product</string>
     <string name="previewProduct">Preview Product</string>
     <string name="addProductPhoto">Add Photo</string>
+    <string name="productImage">Product Image</string>
 
     <string-array name="spinnerProvince">
         <item>Johor</item>
