@@ -83,6 +83,29 @@
             android:layout_marginTop="16dp"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="6dp"
+                android:text="@string/quantityToOrder"
+                android:textSize="15sp" />
+
+            <NumberPicker
+                android:id="@+id/ordered_quantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical">
+
             <Button
                 android:id="@+id/add_to_cart"
                 android:layout_width="match_parent"

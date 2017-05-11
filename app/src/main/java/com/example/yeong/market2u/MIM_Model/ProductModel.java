@@ -30,7 +30,7 @@ public final class ProductModel {
     private double productPrice;
     private String productImageUrl;
     private String userKey;
-    private Object[] productDetails = new Object[5];
+    private Object[] productDetails = new Object[6];
 
     public ProductModel() {
 
@@ -150,17 +150,19 @@ public final class ProductModel {
                     if (postSnapshot.getKey().equals(productID)) {
                         ProductModel productFromDatabase = postSnapshot.getValue(ProductModel.class);
 
+                        setProductID(productID);
                         setProductName(productFromDatabase.productName);
                         setProductDescription(productFromDatabase.productDescription);
                         setProductRemainingQuantity(productFromDatabase.productRemainingQuantity);
                         setProductPrice(productFromDatabase.productPrice);
                         setProductImageUrl(productFromDatabase.productImageUrl);
 
-                        productDetails[0] = getProductName();
-                        productDetails[1] = getProductDescription();
-                        productDetails[2] = getProductPrice();
-                        productDetails[3] = getProductRemainingQuantity();
-                        productDetails[4] = getProductImageUrl();
+                        productDetails[0] = getProductID();
+                        productDetails[1] = getProductName();
+                        productDetails[2] = getProductDescription();
+                        productDetails[3] = getProductPrice();
+                        productDetails[4] = getProductRemainingQuantity();
+                        productDetails[5] = getProductImageUrl();
                     }
                 }
 

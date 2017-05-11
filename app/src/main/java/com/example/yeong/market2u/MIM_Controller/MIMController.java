@@ -13,12 +13,14 @@ import android.widget.ImageView;
 import android.widget.StackView;
 
 import com.example.yeong.market2u.MIM_Model.ProductModel;
+import com.example.yeong.market2u.MIM_Model.ShoppingCartModel;
 import com.example.yeong.market2u.MIM_Model.UserModel;
 
 public final class MIMController {
     private static volatile MIMController instance;
     private UserModel user = UserModel.getInstance();
     private ProductModel product = ProductModel.getInstance();
+    private ShoppingCartModel shoppingCart = ShoppingCartModel.getInstance();
 
     private ProgressDialog mProgressDialog;
 
@@ -200,12 +202,21 @@ public final class MIMController {
                 mImageUri, user.getUserKey());
     }
 
+    // TODO: Haven't start this method
     public void previewProductProcess() {
 
     }
 
     public void retrieveProductProcess(Context context) {
         showProgressDialog(context);
+        // TODO: Properly set the productID
         product.retrieveProduct("-KjlJPlMTkN-1b0xKfn0", context);
+    }
+
+    public void addToCartProcess(Object[] productDetails, int productOrderedQuantity, Context context) {
+        showProgressDialog(context);
+
+        // TODO: Properly get the userKey using Firebase method
+        shoppingCart.addToCart(productDetails, productOrderedQuantity, user.getUserKey());
     }
 }
