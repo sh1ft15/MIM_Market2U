@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,12 +17,14 @@ import com.example.yeong.market2u.MIM_Model.ProductModel;
 import com.example.yeong.market2u.MIM_Model.ShoppingCartModel;
 import com.example.yeong.market2u.MIM_Model.UserModel;
 
+import java.util.ArrayList;
+
 public final class MIMController {
     private static volatile MIMController instance;
+    private static ArrayList<ShoppingCartModel> cart;
     private UserModel user = UserModel.getInstance();
     private ProductModel product = ProductModel.getInstance();
     private ShoppingCartModel shoppingCart = ShoppingCartModel.getInstance();
-
     private ProgressDialog mProgressDialog;
 
     private MIMController() {
@@ -53,6 +56,21 @@ public final class MIMController {
                                   String extraName, String extraValue) {
         origin.startActivity(new Intent(origin, destination)
                 .putExtra(extraName, extraValue));
+    }
+
+    public static void navigateTo(Context origin, Class destination,
+                                  String extraName, Boolean cartHasItem) {
+
+        origin.startActivity(new Intent(origin, destination)
+                .putExtra(extraName, cartHasItem));
+    }
+
+    public static ArrayList<ShoppingCartModel> valuePasser() {
+        return cart;
+    }
+
+    public static void valuePasser(ArrayList<ShoppingCartModel> arrayList) {
+        cart = arrayList;
     }
 
     public void signInProcess(EditText mEmailField, EditText mPasswordField, Context context) {
@@ -217,6 +235,12 @@ public final class MIMController {
         showProgressDialog(context);
 
         // TODO: Properly get the userKey using Firebase method
-        shoppingCart.addToCart(productDetails, productOrderedQuantity, user.getUserKey());
+        shoppingCart.addToCart(productDetails, productOrderedQuantity, "eg8ixXm5SuSLj6tsNFfBJnSEcfB3");
+    }
+
+    public void showShoppingCartProcess(Context context) {
+        showProgressDialog(context);
+
+        shoppingCart.showShoppingCart("eg8ixXm5SuSLj6tsNFfBJnSEcfB3", context);
     }
 }

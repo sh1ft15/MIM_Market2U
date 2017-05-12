@@ -1,13 +1,23 @@
 package com.example.yeong.market2u.MIM_Model;
 
+import android.content.Context;
+import android.util.Log;
+
+import com.example.yeong.market2u.MIM_Controller.MIMController;
+import com.example.yeong.market2u.MIM_OrderProduct.ShoppingCartActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
-/**
- * Created by yeong on 26/4/2017.
- */
+import java.io.Serializable;
+import java.util.ArrayList;
 
-public class ShoppingCartModel {
+
+public final class ShoppingCartModel implements Serializable {
+    private static final String TAG = "Shopping Cart Model";
     private static volatile ShoppingCartModel instance;
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Shopping Cart");
 
@@ -18,6 +28,9 @@ public class ShoppingCartModel {
     private double productPrice;
     private int productOrderedQuantity;
     private String productImageUrl;
+    private ShoppingCartModel cartFromDatabase;
+    private Boolean cartHasItem;
+    private ArrayList<ShoppingCartModel> cart = new ArrayList<ShoppingCartModel>();
 
     private ShoppingCartModel() {
 
@@ -105,5 +118,44 @@ public class ShoppingCartModel {
                 productOrderedQuantity, productDetails[5].toString());
 
         mDatabase.child(getShoppingCartID()).setValue(shoppingCart);
+    }
+
+    public void showShoppingCart(final String userID, final Context context) {
+        Query query = mDatabase.orderByChild("userID").equalTo(userID);
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                cartFromDatabase = dataSnapshot.getValue(ShoppingCartModel.class);
+
+                if (cartFromDatabase == null) {
+                    cartHasItem = false;
+                } else {
+                    cartHasItem = true;
+
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                        cartFromDatabase = postSnapshot.getValue(ShoppingCartModel.class);
+
+                        if (cartFromDatabase.getUserID().equals(userID)) {
+                        }
+                        cart.add(new ShoppingCartModel(userID, cartFromDatabase.getProductID(),
+                                cartFromDatabase.getProductName(),
+                                cartFromDatabase.getProductPrice(),
+                                cartFromDatabase.getProductOrderedQuantity(),
+                                cartFromDatabase.getProductImageUrl()));
+                    }
+                }
+                MIMController.valuePasser(cart);
+
+                MIMController.navigateTo(context, ShoppingCartActivity.class,
+                        "cartHasItem", cartHasItem);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.e(TAG, "Failed to read user", error.toException());
+            }
+        });
     }
 }
