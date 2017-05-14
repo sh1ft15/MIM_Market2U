@@ -18,18 +18,19 @@ public class SignInActivity extends AppCompatActivity {
     private EditText mEmailField;
     private EditText mPasswordField;
     private Button mSignInButton;
-    private TextView mSignUpButton;
+    private Button mSignUpButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+        setTitle("Sign In");
 
         // Views
         mEmailField = (EditText) findViewById(R.id.txtEmail);
         mPasswordField = (EditText) findViewById(R.id.txtPassword);
         mSignInButton = (Button) findViewById(R.id.btnSignIn);
-        mSignUpButton = (TextView) findViewById(R.id.TextViewSignUp);
+        mSignUpButton = (Button) findViewById(R.id.btnSignUp);
 
         // Click listeners
         mSignInButton.setOnClickListener(new View.OnClickListener() {
@@ -46,12 +47,12 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
 
-        mSignInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+//        mSignInButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
     }
 
 /*
