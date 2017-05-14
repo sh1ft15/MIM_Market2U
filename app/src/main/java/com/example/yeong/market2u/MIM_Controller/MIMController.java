@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.StackView;
 
 import com.example.yeong.market2u.MIM_Model.OrderModel;
+import com.example.yeong.market2u.MIM_Model.OrderedItemModel;
 import com.example.yeong.market2u.MIM_Model.ProductModel;
 import com.example.yeong.market2u.MIM_Model.ShoppingCartModel;
 import com.example.yeong.market2u.MIM_Model.UserModel;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 public final class MIMController {
     private static volatile MIMController instance;
     private static ArrayList<ShoppingCartModel> cart;
+    private static OrderModel orderFromDB;
     private UserModel user = UserModel.getInstance();
     private ProductModel product = ProductModel.getInstance();
     private ShoppingCartModel shoppingCart = ShoppingCartModel.getInstance();
@@ -74,6 +76,14 @@ public final class MIMController {
 
     public static void valuePasser(ArrayList<ShoppingCartModel> arrayList) {
         cart = arrayList;
+    }
+
+    public static OrderModel valuePasserOrder() {
+        return orderFromDB;
+    }
+
+    public static void valuePasserOrder(OrderModel orderDB) {
+        orderFromDB = orderDB;
     }
 
     public void signInProcess(EditText mEmailField, EditText mPasswordField, Context context) {
@@ -247,17 +257,12 @@ public final class MIMController {
         shoppingCart.showShoppingCart("eg8ixXm5SuSLj6tsNFfBJnSEcfB3", context);
     }
 
-    public void makeOrderProcess(String recipientName, String billName, String shipAddress,
-                                 String billAddress, String shipPhoneNum, String billPhoneNum,
-                                 Context context) {
-        showProgressDialog(context);
-    }
-
     public void makeOrderProcess(String recipientName, String shipAddress, String shipPhoneNum,
                                  Context context) {
         showProgressDialog(context);
 
         order.makeOrder(MIMController.valuePasser(), recipientName, shipAddress, shipPhoneNum,
-                "eg8ixXm5SuSLj6tsNFfBJnSEcfB3");
+                "eg8ixXm5SuSLj6tsNFfBJnSEcfB3", context);
     }
+
 }

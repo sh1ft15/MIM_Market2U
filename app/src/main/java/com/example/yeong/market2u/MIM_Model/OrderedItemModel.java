@@ -6,6 +6,7 @@ package com.example.yeong.market2u.MIM_Model;
 
 public class OrderedItemModel {
 
+    private String orderedItemID;
     private String productID;
     private String orderID;
     private String productName;
@@ -29,6 +30,14 @@ public class OrderedItemModel {
         this.productOrderedQuantity = productOrderedQuantity;
         this.productImageUrl = productImageUrl;
         this.orderedItemStatus = orderedItemStatus;
+    }
+
+    public String getOrderedItemID() {
+        return orderedItemID;
+    }
+
+    public void setOrderedItemID(String orderedItemID) {
+        this.orderedItemID = orderedItemID;
     }
 
     public String getProductName() {

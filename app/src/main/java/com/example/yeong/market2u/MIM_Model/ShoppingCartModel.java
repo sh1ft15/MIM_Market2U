@@ -16,7 +16,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public final class ShoppingCartModel implements Serializable {
+public final class ShoppingCartModel {
     private static final String TAG = "Shopping Cart Model";
     private static volatile ShoppingCartModel instance;
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Shopping Cart");

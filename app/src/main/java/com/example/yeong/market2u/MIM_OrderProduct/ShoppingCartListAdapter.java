@@ -1,4 +1,4 @@
-package com.example.yeong.market2u;
+package com.example.yeong.market2u.MIM_OrderProduct;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.yeong.market2u.MIM_Model.ShoppingCartModel;
 import com.example.yeong.market2u.MIM_OrderProduct.ShoppingCartActivity;
+import com.example.yeong.market2u.R;
 
 import java.util.ArrayList;
 

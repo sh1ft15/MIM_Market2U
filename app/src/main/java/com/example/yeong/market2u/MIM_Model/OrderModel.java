@@ -1,13 +1,23 @@
 package com.example.yeong.market2u.MIM_Model;
 
+import android.content.Context;
+import android.util.Log;
+
+import com.example.yeong.market2u.MIM_Controller.MIMController;
+import com.example.yeong.market2u.MIM_ManagePayment.PaymentConfirmationActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderModel {
+    private static final String TAG = "OrderModel";
     public static volatile OrderModel instance;
     private DatabaseReference mDatabaseOrder = FirebaseDatabase.getInstance().getReference("Order");
     private DatabaseReference mDatabaseOrderedItem = FirebaseDatabase.getInstance().getReference("Ordered Item");
@@ -21,6 +31,8 @@ public class OrderModel {
     private String billingName;
     private String billingPhoneNum;
     private String userID;
+    private OrderModel orderFromDatabase;
+    private OrderModel order;
 
     private OrderModel() {
 
@@ -31,19 +43,6 @@ public class OrderModel {
         this.deliveryName = deliveryName;
         this.deliveryAddress = deliveryAddress;
         this.deliveryPhoneNum = deliveryPhoneNum;
-        this.orderedItemID = orderedItemID;
-        this.userID = userID;
-    }
-
-    private OrderModel(String deliveryName, String billingName,
-                       String deliveryAddress, String billingAddress, String deliveryPhoneNum,
-                       String billingPhoneNum, List<String> orderedItemID, String userID) {
-        this.deliveryName = deliveryName;
-        this.billingName = billingName;
-        this.deliveryAddress = deliveryAddress;
-        this.billingAddress = billingAddress;
-        this.deliveryPhoneNum = deliveryPhoneNum;
-        this.billingPhoneNum = billingPhoneNum;
         this.orderedItemID = orderedItemID;
         this.userID = userID;
     }
@@ -132,7 +131,7 @@ public class OrderModel {
     }
 
     public void makeOrder(ArrayList<ShoppingCartModel> cart, String deliveryName,
-                          String deliveryAddress, String deliveryPhoneNum, String userID) {
+                          String deliveryAddress, String deliveryPhoneNum, String userID, Context context) {
         setOrderID(mDatabaseOrder.push().getKey());
 
         for (int x = 0; x < cart.size(); x++) {
@@ -151,6 +150,8 @@ public class OrderModel {
                 orderedItemID, userID);
 
         mDatabaseOrder.child(getOrderID()).setValue(order);
+
+        showOrder(getOrderID(), context);
     }
     /*
     public void makeOrder(ArrayList<ShoppingCartModel> cart, String deliveryName, String billingName,
@@ -177,4 +178,31 @@ public class OrderModel {
         mDatabaseOrder.child(getOrderID()).setValue(order);
     }
     */
+
+    public void showOrder(final String orderID, final Context context) {
+        Query getOrderQuery = mDatabaseOrder.orderByKey().equalTo(orderID);
+
+        getOrderQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    orderFromDatabase = postSnapshot.getValue(OrderModel.class);
+
+                    if (postSnapshot.getKey().equals(orderID)) {
+                        order = orderFromDatabase;
+                    }
+                }
+
+                MIMController.valuePasserOrder(order);
+
+                MIMController.navigateTo(context, PaymentConfirmationActivity.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.e(TAG, "Failed to read user", error.toException());
+            }
+        });
+    }
 }
