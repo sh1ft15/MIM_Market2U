@@ -47,6 +47,13 @@ public final class ProductModel {
         this.userKey = userKey;
     }
 
+    // Added By Din (Just for my convenient)
+    public ProductModel(String productName, double productPrice, int productRemainingQuantity ) {
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.productRemainingQuantity = productRemainingQuantity;
+    }
+
     public static ProductModel getInstance() {
         if (instance == null) {
             synchronized (ProductModel.class) {
