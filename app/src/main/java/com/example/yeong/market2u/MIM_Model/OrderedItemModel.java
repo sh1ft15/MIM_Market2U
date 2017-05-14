@@ -7,6 +7,7 @@ package com.example.yeong.market2u.MIM_Model;
 public class OrderedItemModel {
 
     private String productID;
+    private String orderID;
     private String productName;
     private double productPrice;
     private int productOrderedQuantity;
@@ -14,27 +15,19 @@ public class OrderedItemModel {
     private String orderedItemStatus;
     private String userID;
 
-    public  OrderedItemModel(){
+    public OrderedItemModel() {
 
     }
 
-    public void setProductName(String productName) {
+    public OrderedItemModel(String productID, String orderID, String productName,
+                            double productPrice, int productOrderedQuantity,
+                            String productImageUrl, String orderedItemStatus) {
+        this.productID = productID;
+        this.orderID = orderID;
         this.productName = productName;
-    }
-
-    public void setProductPrice(double productPrice) {
         this.productPrice = productPrice;
-    }
-
-    public void setProductOrderedQuantity(int productOrderedQuantity) {
         this.productOrderedQuantity = productOrderedQuantity;
-    }
-
-    public void setProductImageUrl(String productImageUrl) {
         this.productImageUrl = productImageUrl;
-    }
-
-    public void setOrderedItemStatus(String orderedItemStatus) {
         this.orderedItemStatus = orderedItemStatus;
     }
 
@@ -42,20 +35,40 @@ public class OrderedItemModel {
         return productName;
     }
 
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
     public double getProductPrice() {
         return productPrice;
+    }
+
+    public void setProductPrice(double productPrice) {
+        this.productPrice = productPrice;
     }
 
     public int getProductOrderedQuantity() {
         return productOrderedQuantity;
     }
 
+    public void setProductOrderedQuantity(int productOrderedQuantity) {
+        this.productOrderedQuantity = productOrderedQuantity;
+    }
+
     public String getProductImageUrl() {
         return productImageUrl;
     }
 
+    public void setProductImageUrl(String productImageUrl) {
+        this.productImageUrl = productImageUrl;
+    }
+
     public String getOrderedItemStatus() {
         return orderedItemStatus;
+    }
+
+    public void setOrderedItemStatus(String orderedItemStatus) {
+        this.orderedItemStatus = orderedItemStatus;
     }
 
     public String getProductID() {
@@ -64,5 +77,13 @@ public class OrderedItemModel {
 
     public String getUserID() {
         return userID;
+    }
+
+    public String getOrderID() {
+        return orderID;
+    }
+
+    public void setOrderID(String orderID) {
+        this.orderID = orderID;
     }
 }

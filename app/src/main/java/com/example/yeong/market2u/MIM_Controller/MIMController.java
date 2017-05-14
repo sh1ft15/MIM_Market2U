@@ -13,9 +13,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.StackView;
 
+import com.example.yeong.market2u.MIM_Model.OrderModel;
 import com.example.yeong.market2u.MIM_Model.ProductModel;
 import com.example.yeong.market2u.MIM_Model.ShoppingCartModel;
 import com.example.yeong.market2u.MIM_Model.UserModel;
+import com.example.yeong.market2u.MIM_OrderProduct.ShippingDetailsActivity;
 
 import java.util.ArrayList;
 
@@ -25,6 +27,7 @@ public final class MIMController {
     private UserModel user = UserModel.getInstance();
     private ProductModel product = ProductModel.getInstance();
     private ShoppingCartModel shoppingCart = ShoppingCartModel.getInstance();
+    private OrderModel order = OrderModel.getInstance();
     private ProgressDialog mProgressDialog;
 
     private MIMController() {
@@ -242,5 +245,19 @@ public final class MIMController {
         showProgressDialog(context);
 
         shoppingCart.showShoppingCart("eg8ixXm5SuSLj6tsNFfBJnSEcfB3", context);
+    }
+
+    public void makeOrderProcess(String recipientName, String billName, String shipAddress,
+                                 String billAddress, String shipPhoneNum, String billPhoneNum,
+                                 Context context) {
+        showProgressDialog(context);
+    }
+
+    public void makeOrderProcess(String recipientName, String shipAddress, String shipPhoneNum,
+                                 Context context) {
+        showProgressDialog(context);
+
+        order.makeOrder(MIMController.valuePasser(), recipientName, shipAddress, shipPhoneNum,
+                "eg8ixXm5SuSLj6tsNFfBJnSEcfB3");
     }
 }

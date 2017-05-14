@@ -37,7 +37,8 @@
             android:name=".MIM_ManageProduct.AddProductActivity"
             android:label="@string/addProduct" />
         <activity android:name=".MIM_SearchProduct.ProductDetailsActivity" />
-        <activity android:name=".MIM_OrderProduct.ShoppingCartActivity"></activity>
+        <activity android:name=".MIM_OrderProduct.ShoppingCartActivity" />
+        <activity android:name=".MIM_OrderProduct.ShippingDetailsActivity" />
     </application>
 
 </manifest>

@@ -113,8 +113,10 @@ public final class ShoppingCartModel implements Serializable {
     public void addToCart(Object[] productDetails, int productOrderedQuantity, String userID) {
         setShoppingCartID(mDatabase.push().getKey());
 
+        double productPrice = productOrderedQuantity * Double.parseDouble(productDetails[3].toString());
+
         ShoppingCartModel shoppingCart = new ShoppingCartModel(userID, productDetails[0].toString(),
-                productDetails[1].toString(), Double.parseDouble(productDetails[3].toString()),
+                productDetails[1].toString(), productPrice,
                 productOrderedQuantity, productDetails[5].toString());
 
         mDatabase.child(getShoppingCartID()).setValue(shoppingCart);
