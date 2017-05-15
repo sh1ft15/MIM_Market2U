@@ -23,6 +23,7 @@ public class ProductListAdapter extends ArrayAdapter<ProductModel>{
         super(context, 0, product_models);
     }
 
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 

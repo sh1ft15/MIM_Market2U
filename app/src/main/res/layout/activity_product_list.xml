@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="10dp"
     android:orientation="vertical"
     tools:context="com.example.yeong.market2u.MIM_SearchProduct.ProductList">
 
 
     <TableRow
+        android:id="@+id/tableRow"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tableRow">
+        android:layout_height="wrap_content">
 
         <EditText
             android:id="@+id/search_product_input"
@@ -34,5 +35,15 @@
         android:id="@+id/product_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/product_list_empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_grey"
+        android:padding="15dp"
+        android:text="No product data :("
+        android:textAlignment="center"
+        android:textSize="17sp" />
 
 </LinearLayout>

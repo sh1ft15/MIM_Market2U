@@ -17,6 +17,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 public final class ProductModel {
     private static final String TAG = "Product Model";
     private static volatile ProductModel instance;
@@ -31,6 +34,7 @@ public final class ProductModel {
     private String productImageUrl;
     private String userKey;
     private Object[] productDetails = new Object[6];
+    private ArrayList<ProductModel> product_lists = new ArrayList<ProductModel>();
 
     public ProductModel() {
 
@@ -182,5 +186,47 @@ public final class ProductModel {
                 Log.e(TAG, "Failed to read user", error.toException());
             }
         });
+    }
+
+    // Added by Din
+    public ArrayList<ProductModel> all() {
+
+        Query query = mDatabase.orderByKey();
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+
+                     get_all_products((Map<String,Object>) dataSnapshot.getValue());
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.e(TAG, "Failed to read user", error.toException());
+            }
+        });
+
+        return  product_lists;
+    }
+
+    // Added by Din
+    private void get_all_products(Map<String,Object> products){
+
+        //iterate through each user, ignoring their UID
+        for (Map.Entry<String, Object> entry : products.entrySet()){
+            Map singleProduct = (Map) entry.getValue();
+            String product_name = (String) singleProduct.get("productName");
+            Long price = (Long) singleProduct.get("productPrice");
+            Long quantity = (Long) singleProduct.get("productRemainingQuantity");
+            Double product_price =  price.doubleValue();
+            int product_quantity = quantity.intValue();
+            product_lists.add(new ProductModel(product_name, product_price, product_quantity));
+        }
     }
 }
