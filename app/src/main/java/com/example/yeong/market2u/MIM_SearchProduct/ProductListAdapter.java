@@ -1,6 +1,7 @@
 package com.example.yeong.market2u.MIM_SearchProduct;
 
 import android.app.Activity;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,17 +37,34 @@ public class ProductListAdapter extends ArrayAdapter<ProductModel>{
 
         ProductModel product_model = getItem(position);
 
+        listItemView.setTag(product_model.getProductID());
+
         TextView nameTextView = (TextView) listItemView.findViewById(R.id.name_tag);
-        nameTextView.setText(product_model.getProductName());
+        String name = product_model.getProductName();
+        name = truncate(name, 5);
+
+        nameTextView.setText(name);
 
         TextView priceTextView = (TextView) listItemView.findViewById(R.id.price_tag);
-        priceTextView.setText("RM " + Double.toString(product_model.getProductPrice()));
+        String price = Double.toString(product_model.getProductPrice());
+        if(price == null ||price.isEmpty()){
+            price = "0.00";
+        }
+        priceTextView.setText("RM " + price);
 
         TextView quantityTextView = (TextView) listItemView.findViewById(R.id.quantity_tag);
         quantityTextView.setText(Integer.toString(product_model.getProductRemainingQuantity()));
 
 
         return listItemView;
+    }
+
+    private static String truncate(String str, int len) {
+        if (str.length() > len) {
+            return str.substring(0, len) + "...";
+        } else {
+            return str;
+        }
     }
 
 

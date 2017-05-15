@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.example.yeong.market2u.MIM_Controller.MIMController;
 import com.example.yeong.market2u.MIM_SearchProduct.ProductDetailsActivity;
+import com.example.yeong.market2u.MIM_SearchProduct.ProductList;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -52,7 +53,8 @@ public final class ProductModel {
     }
 
     // Added By Din (Just for my convenient)
-    public ProductModel(String productName, double productPrice, int productRemainingQuantity ) {
+    public ProductModel(String productId, String productName, double productPrice, int productRemainingQuantity ) {
+        this.productID = productId;
         this.productName = productName;
         this.productPrice = productPrice;
         this.productRemainingQuantity = productRemainingQuantity;
@@ -189,7 +191,7 @@ public final class ProductModel {
     }
 
     // Added by Din
-    public ArrayList<ProductModel> all() {
+    public void all(final Context context) {
 
         Query query = mDatabase.orderByKey();
 
@@ -199,9 +201,19 @@ public final class ProductModel {
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
-                     get_all_products((Map<String,Object>) dataSnapshot.getValue());
+                    ProductModel product = postSnapshot.getValue(ProductModel.class);
+
+                    product_lists.add(new ProductModel(
+                                    postSnapshot.getKey(),
+                                    product.getProductName(),
+                                    product.getProductPrice(),
+                                    product.getProductRemainingQuantity())
+                    );
 
                 }
+
+                MIMController.set_products(product_lists);
+                MIMController.navigateTo(context, ProductList.class);
 
             }
 
@@ -212,21 +224,8 @@ public final class ProductModel {
             }
         });
 
-        return  product_lists;
+
     }
 
-    // Added by Din
-    private void get_all_products(Map<String,Object> products){
 
-        //iterate through each user, ignoring their UID
-        for (Map.Entry<String, Object> entry : products.entrySet()){
-            Map singleProduct = (Map) entry.getValue();
-            String product_name = (String) singleProduct.get("productName");
-            Long price = (Long) singleProduct.get("productPrice");
-            Long quantity = (Long) singleProduct.get("productRemainingQuantity");
-            Double product_price =  price.doubleValue();
-            int product_quantity = quantity.intValue();
-            product_lists.add(new ProductModel(product_name, product_price, product_quantity));
-        }
-    }
 }

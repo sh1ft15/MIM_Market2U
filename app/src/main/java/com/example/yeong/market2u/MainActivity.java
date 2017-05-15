@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.yeong.market2u.MIM_Authentication.SignInActivity;
 import com.example.yeong.market2u.MIM_Controller.MIMController;
@@ -21,34 +22,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button product_list_btn = (Button) findViewById(R.id.product_list_btn);
-        Button cart_list_btn = (Button) findViewById(R.id.cart_list_btn);
         Button btnProductMenu = (Button) findViewById(R.id.btnProductMenu);
         Button btnSignIn = (Button) findViewById(R.id.btnSignIn);
-        Button btnRetrieveProduct = (Button) findViewById(R.id.btnRetrieveProduct);
 
+        if(getIntent().hasExtra("status")){
+            Toast.makeText(getApplicationContext(), getIntent().getStringExtra("status"), Toast.LENGTH_SHORT).show();
+        }
         product_list_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, ProductList.class);
-                startActivity(i);
+                MIMController.getInstance().retrieveAllProductProcess(MainActivity.this);
             }
         });
 
-        cart_list_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, CartList.class);
-                startActivity(i);
-            }
-        });
 
-        btnProductMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, MainFrameActivity.class);
-                startActivity(i);
-            }
-        });
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,11 +45,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnRetrieveProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MIMController.getInstance().retrieveProductProcess(MainActivity.this);
-            }
-        });
     }
 }

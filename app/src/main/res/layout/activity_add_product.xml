@@ -112,18 +112,9 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="4dp"
-            android:text="@string/addProductPhoto" />
-
-        <Button
-            android:id="@+id/btnPreviewProduct"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="4dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="4dp"
-            android:text="@string/previewProduct" />
+            android:background="@android:color/black"
+            android:text="@string/addProductPhoto"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/btnAddProduct"
@@ -134,6 +125,22 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="4dp"
-            android:text="@string/addProduct" />
+            android:background="@drawable/btn_border"
+            android:text="@string/addProduct"
+            android:textColor="@android:color/black" />
+
+        <Button
+            android:id="@+id/btnPreviewProduct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="4dp"
+            android:background="@android:color/black"
+            android:text="@string/previewProduct"
+            android:textColor="@color/white" />
+
     </LinearLayout>
 </ScrollView>

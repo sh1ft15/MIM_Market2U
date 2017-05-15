@@ -5,13 +5,20 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.yeong.market2u.MIM_Controller.MIMController;
+import com.example.yeong.market2u.MainActivity;
 import com.example.yeong.market2u.Testing;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by yeong on 26/4/2017.
@@ -27,9 +34,11 @@ public final class UserModel {
     private String defaultShippingAddress;
     private Boolean sellerStatus;
     private String storeName;
+    private Object[] userDetails = new Object[2];
+
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("User");
 
     private UserModel() {
 
@@ -112,8 +121,7 @@ public final class UserModel {
     }
 
     // Create a user in Firebase Authentication using email and password
-    public void createUserAccountInAuthentication
-    (final String emailAddress, final String password,
+    public void createUserAccountInAuthentication(final String emailAddress, final String password,
      final String firstName, final String lastName, final Context context) {
         mAuth.createUserWithEmailAndPassword(emailAddress, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -143,20 +151,68 @@ public final class UserModel {
     // Sign in authentication process in Firebase Authentication
     public void signInValidationInAuthentication(String emailAddress, String password,
                                                  final Context context) {
+
         mAuth.signInWithEmailAndPassword(emailAddress, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
+                    public void onComplete(@NonNull final Task<AuthResult> task) {
                         Log.d("SignIn_Process", "Status: " + task.isSuccessful());
 
                         if (task.isSuccessful()) {
-                            setUserKey(task.getResult().getUser().getUid());
+
+                            userDetails[0] = task.getResult().getUser().getUid();
+                            userDetails[1] = task.getResult().getUser().getEmail();
+
+                            MIMController.navigateTo(context, Testing.class, "userDetails", userDetails);
+
                         } else {
                             setUserKey(null);
+                            MIMController.navigateTo(context, MainActivity.class, "status", "Incorrect login information!");
                         }
 
-                        MIMController.navigateTo(context, Testing.class, "userKey", getUserKey());
+                        // MIMController.navigateTo(context, Testing.class, "userKey", getUserKey());
+
                     }
-                });
+        });
     }
+
+    public void retrieveUser(final Context context, final String userKey){
+
+
+        Query query = mDatabase.orderByKey();
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+
+                    if (postSnapshot.getKey().equals(userKey)) {
+                        UserModel userFromDatabase = postSnapshot.getValue(UserModel.class);
+
+                        setUserKey(userKey);
+                        setFirstName(userFromDatabase.firstName);
+                        setLastName(userFromDatabase.lastName);
+
+                        userDetails[0] = getUserKey();
+                        userDetails[1] = getFirstName();
+                        userDetails[2] = getLastName();
+
+                    }
+                }
+
+                MIMController.navigateTo(context, Testing.class, "userDetails", userDetails);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+            }
+        });
+
+
+    }
+
+
+
 }

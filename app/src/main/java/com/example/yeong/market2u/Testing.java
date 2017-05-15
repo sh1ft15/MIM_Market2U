@@ -20,8 +20,15 @@ public class Testing extends AppCompatActivity {
         setContentView(R.layout.activity_testing);
 
         TextView id = (TextView)findViewById(R.id.textToDisplay);
+        TextView email = (TextView)findViewById(R.id.textEmail);
 
-        id.setText(getIntent().getStringExtra("userKey"));
+        // id.setText(getIntent().getStringExtra("userKey"));
+
+         final Object[] uDetails = (Object[]) getIntent().getSerializableExtra("userDetails");
+
+
+        id.setText(" ID : " + uDetails[0].toString() );
+        email.setText(" EMAIL : " + uDetails[1].toString());
 
         Button btnSignOut = (Button)findViewById(R.id.btnSignOut);
 

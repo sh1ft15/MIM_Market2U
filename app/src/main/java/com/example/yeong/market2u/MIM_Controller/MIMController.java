@@ -19,12 +19,14 @@ import com.example.yeong.market2u.MIM_Model.ProductModel;
 import com.example.yeong.market2u.MIM_Model.ShoppingCartModel;
 import com.example.yeong.market2u.MIM_Model.UserModel;
 import com.example.yeong.market2u.MIM_OrderProduct.ShippingDetailsActivity;
+import com.example.yeong.market2u.MIM_SearchProduct.ProductList;
 
 import java.util.ArrayList;
 
 public final class MIMController {
     private static volatile MIMController instance;
     private static ArrayList<ShoppingCartModel> cart;
+    private static ArrayList<ProductModel> products;
     private static OrderModel orderFromDB;
     private UserModel user = UserModel.getInstance();
     private ProductModel product = ProductModel.getInstance();
@@ -78,6 +80,14 @@ public final class MIMController {
         cart = arrayList;
     }
 
+    public static ArrayList<ProductModel> get_products() {
+        return products;
+    }
+
+    public static void set_products(ArrayList<ProductModel> arrayList) {
+        products = arrayList;
+    }
+
     public static OrderModel valuePasserOrder() {
         return orderFromDB;
     }
@@ -89,21 +99,27 @@ public final class MIMController {
     public void signInProcess(EditText mEmailField, EditText mPasswordField, Context context) {
         validateForm(mEmailField, mPasswordField);
 
-        showProgressDialog(context);
+        ProgressDialog load = new ProgressDialog(context);
+        load.show();
 
         user.signInValidationInAuthentication
                 (mEmailField.getText().toString(), mPasswordField.getText().toString(), context);
+
+        load.dismiss();
     }
 
     public void signUpProcess(EditText mEmailField, EditText mPasswordField,
                               EditText mFirstName, EditText mLastName, Context context) {
         validateForm(mEmailField, mPasswordField, mFirstName, mLastName);
 
-        showProgressDialog(context);
+        ProgressDialog load = new ProgressDialog(context);
+        load.show();
 
         user.createUserAccountInAuthentication(mEmailField.getText().toString(),
                 mPasswordField.getText().toString(), mFirstName.getText().toString(),
                 mLastName.getText().toString(), context);
+
+        load.dismiss();
     }
 
     private boolean validateForm(EditText mEmailField, EditText mPasswordField) {
@@ -238,10 +254,15 @@ public final class MIMController {
 
     }
 
-    public void retrieveProductProcess(Context context) {
+    public void retrieveProductProcess(Context context, String productID) {
         showProgressDialog(context);
         // TODO: Properly set the productID
-        product.retrieveProduct("-KjlJPlMTkN-1b0xKfn0", context);
+        product.retrieveProduct(productID, context);
+    }
+
+    public void retrieveAllProductProcess(Context context) {
+        showProgressDialog(context);
+        product.all(context);
     }
 
     public void addToCartProcess(Object[] productDetails, int productOrderedQuantity, Context context) {
@@ -264,5 +285,6 @@ public final class MIMController {
         order.makeOrder(MIMController.valuePasser(), recipientName, shipAddress, shipPhoneNum,
                 "eg8ixXm5SuSLj6tsNFfBJnSEcfB3", context);
     }
+
 
 }

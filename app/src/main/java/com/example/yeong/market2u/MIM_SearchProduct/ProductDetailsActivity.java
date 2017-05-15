@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
@@ -46,13 +47,17 @@ public class ProductDetailsActivity extends AppCompatActivity {
         btnShoppingCart = (Button) findViewById(R.id.shopping_cart);
 
 
+        // remove focus from search input
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+
         // Load the product details from Firebase
         Intent intent = getIntent();
         final Object[] pDetails = (Object[]) intent.getSerializableExtra("productDetails");
         mProductName.setText(pDetails[1].toString());
         mProductDescription.setText(pDetails[2].toString());
-        mProductPrice.setText(pDetails[3].toString());
-        mProductQuantity.setText("Quantity remaining: " + pDetails[4].toString());
+        mProductPrice.setText("RM " + pDetails[3].toString());
+        mProductQuantity.setText("Quantity : " + pDetails[4].toString());
         Glide.with(this).load(pDetails[5].toString()).into(mProductImage);
 
         mQuantityOrdered.setMinValue(1);
@@ -71,5 +76,13 @@ public class ProductDetailsActivity extends AppCompatActivity {
                 controller.showShoppingCartProcess(productDetailsContext);
             }
         });
+
+
+
+    }
+
+    @Override
+    public void onBackPressed (){
+        controller.navigateTo(productDetailsContext, ProductList.class);
     }
 }

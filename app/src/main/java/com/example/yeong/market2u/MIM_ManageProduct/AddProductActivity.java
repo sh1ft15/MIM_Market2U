@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.yeong.market2u.MIM_Controller.MIMController;
 import com.example.yeong.market2u.R;
@@ -30,6 +31,7 @@ public class AddProductActivity extends AppCompatActivity {
     private Button btnAddProductPhoto;
     private ImageView imageProduct;
     private Uri mImageUri;
+    private boolean added = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,13 +52,21 @@ public class AddProductActivity extends AppCompatActivity {
             public void onClick(View v) {
                 controller.addProductProcess(mProductName, mProductDescription, mProductPrice,
                         mProductRemainingQuantity, imageProduct, mImageUri, addProductContext);
+                added = true;
+                Toast.makeText(getApplicationContext(), "Product Added.", Toast.LENGTH_SHORT).show();
             }
         });
 
         btnPreviewProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                controller.previewProductProcess();
+
+                if(added == true){
+                    controller.previewProductProcess();
+                }else{
+                    Toast.makeText(getApplicationContext(), "Product Not Yet Added.", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
