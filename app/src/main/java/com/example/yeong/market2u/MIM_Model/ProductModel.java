@@ -195,6 +195,9 @@ public final class ProductModel {
 
         Query query = mDatabase.orderByKey();
 
+        // clear first
+        product_lists.clear();
+
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

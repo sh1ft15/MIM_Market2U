@@ -36,7 +36,7 @@
 
     <TableRow
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="wrap_content" >
 
         <Button
             android:id="@+id/btnGoToAddProduct"
@@ -60,5 +60,14 @@
             android:layout_weight="1"
             android:text="Sign Out" />
     </TableRow>
+
+    <Button
+        android:id="@+id/btnBrowseProduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/btn_border"
+        android:text="Browse Product"
+        android:textColor="@android:color/black" />
 
 </LinearLayout>

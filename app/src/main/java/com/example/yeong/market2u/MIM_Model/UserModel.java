@@ -18,8 +18,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import static android.content.ContentValues.TAG;
-
 /**
  * Created by yeong on 26/4/2017.
  */
@@ -35,6 +33,7 @@ public final class UserModel {
     private Boolean sellerStatus;
     private String storeName;
     private Object[] userDetails = new Object[2];
+
 
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -152,17 +151,21 @@ public final class UserModel {
     public void signInValidationInAuthentication(String emailAddress, String password,
                                                  final Context context) {
 
+
         mAuth.signInWithEmailAndPassword(emailAddress, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull final Task<AuthResult> task) {
                         Log.d("SignIn_Process", "Status: " + task.isSuccessful());
 
+
+
                         if (task.isSuccessful()) {
 
                             userDetails[0] = task.getResult().getUser().getUid();
                             userDetails[1] = task.getResult().getUser().getEmail();
 
+                            MIMController.getInstance().setCurrentUser(userDetails[0].toString(), context);
                             MIMController.navigateTo(context, Testing.class, "userDetails", userDetails);
 
                         } else {
@@ -170,7 +173,7 @@ public final class UserModel {
                             MIMController.navigateTo(context, MainActivity.class, "status", "Incorrect login information!");
                         }
 
-                        // MIMController.navigateTo(context, Testing.class, "userKey", getUserKey());
+
 
                     }
         });

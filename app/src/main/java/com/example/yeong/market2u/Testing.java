@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+
 import com.example.yeong.market2u.MIM_Authentication.SignInActivity;
+import com.example.yeong.market2u.MIM_Controller.MIMController;
 import com.example.yeong.market2u.MIM_ManageProduct.AddProductActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -22,15 +24,16 @@ public class Testing extends AppCompatActivity {
         TextView id = (TextView)findViewById(R.id.textToDisplay);
         TextView email = (TextView)findViewById(R.id.textEmail);
 
-        // id.setText(getIntent().getStringExtra("userKey"));
 
-         final Object[] uDetails = (Object[]) getIntent().getSerializableExtra("userDetails");
+        final Object[] uDetails = (Object[]) getIntent().getSerializableExtra("userDetails");
 
+        String user_id = MIMController.getInstance().getCurrentUser();
 
-        id.setText(" ID : " + uDetails[0].toString() );
+        id.setText(" ID : " + user_id );
         email.setText(" EMAIL : " + uDetails[1].toString());
 
         Button btnSignOut = (Button)findViewById(R.id.btnSignOut);
+        Button btnBrowseProduct = (Button)findViewById(R.id.btnBrowseProduct);
 
         btnSignOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +50,13 @@ public class Testing extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Testing.this, AddProductActivity.class));
+            }
+        });
+
+        btnBrowseProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MIMController.getInstance().retrieveAllProductProcess(Testing.this);
             }
         });
     }

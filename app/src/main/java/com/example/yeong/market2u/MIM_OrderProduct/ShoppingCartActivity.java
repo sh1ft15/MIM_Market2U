@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.yeong.market2u.MIM_Controller.MIMController;
 import com.example.yeong.market2u.MIM_Model.ShoppingCartModel;
+import com.example.yeong.market2u.MIM_SearchProduct.ProductList;
 import com.example.yeong.market2u.R;
 
 import java.io.Serializable;
@@ -43,5 +45,14 @@ public class ShoppingCartActivity extends AppCompatActivity implements Serializa
                 MIMController.navigateTo(shoppingCartContext, ShippingDetailsActivity.class);
             }
         });
+
+        if(getIntent().hasExtra("status")){
+            Toast.makeText(getApplicationContext(), getIntent().getStringExtra("status"), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onBackPressed(){
+        controller.navigateTo(this, ProductList.class);
     }
 }

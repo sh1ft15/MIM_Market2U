@@ -5,11 +5,14 @@ import android.util.Log;
 
 import com.example.yeong.market2u.MIM_Controller.MIMController;
 import com.example.yeong.market2u.MIM_OrderProduct.ShoppingCartActivity;
+import com.example.yeong.market2u.MIM_SearchProduct.ProductList;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
@@ -36,7 +39,7 @@ public final class ShoppingCartModel {
 
     }
 
-    private ShoppingCartModel(String userID, String productID, String productName,
+    private ShoppingCartModel( String userID, String productID, String productName,
                               double productPrice, int productOrderedQuantity,
                               String productImageUrl) {
         this.userID = userID;
@@ -45,6 +48,14 @@ public final class ShoppingCartModel {
         this.productPrice = productPrice;
         this.productOrderedQuantity = productOrderedQuantity;
         this.productImageUrl = productImageUrl;
+    }
+
+    private ShoppingCartModel(String shoppingCartID, String productName, double productPrice, int productOrderedQuantity) {
+        this.shoppingCartID = shoppingCartID;
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.productOrderedQuantity = productOrderedQuantity;
+
     }
 
     public static ShoppingCartModel getInstance() {
@@ -120,6 +131,7 @@ public final class ShoppingCartModel {
                 productOrderedQuantity, productDetails[5].toString());
 
         mDatabase.child(getShoppingCartID()).setValue(shoppingCart);
+
     }
 
     public void showShoppingCart(final String userID, final Context context) {
@@ -138,13 +150,16 @@ public final class ShoppingCartModel {
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                         cartFromDatabase = postSnapshot.getValue(ShoppingCartModel.class);
 
-                        if (cartFromDatabase.getUserID().equals(userID)) {
-                        }
-                        cart.add(new ShoppingCartModel(userID, cartFromDatabase.getProductID(),
+//                        if (cartFromDatabase.getUserID().equals(userID)) {
+//                        }
+                        cart.add(new ShoppingCartModel(
+                                postSnapshot.getKey(),
+                                // userID,
+                                //cartFromDatabase.getProductID(),
                                 cartFromDatabase.getProductName(),
                                 cartFromDatabase.getProductPrice(),
-                                cartFromDatabase.getProductOrderedQuantity(),
-                                cartFromDatabase.getProductImageUrl()));
+                                cartFromDatabase.getProductOrderedQuantity()));
+                                //cartFromDatabase.getProductImageUrl()));
                     }
                 }
                 MIMController.valuePasser(cart);
@@ -159,5 +174,16 @@ public final class ShoppingCartModel {
                 Log.e(TAG, "Failed to read user", error.toException());
             }
         });
+    }
+
+    //
+    public void deleteShoppingCartItem(final Context context, String shoppingCartID){
+
+        mDatabase.child(shoppingCartID).removeValue();
+
+
+        // MIMController.navigateTo(context, ShoppingCartActivity.class, "status", "Item in Cart Removed!");
+        MIMController.getInstance().showShoppingCartProcess(context);
+
     }
 }

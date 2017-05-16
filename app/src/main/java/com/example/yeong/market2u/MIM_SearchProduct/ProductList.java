@@ -41,8 +41,10 @@ public class ProductList extends AppCompatActivity {
         EditText searchInput = (EditText) findViewById(R.id.search_product_input);
         Button searchBtn = (Button) findViewById(R.id.search_product_btn);
 
+        if(product_lists.isEmpty()){
+            product_lists = MIMController.get_products();
+        }
 
-        product_lists = MIMController.get_products();
 
 
         ProductListAdapter adapter = new ProductListAdapter(this, product_lists);

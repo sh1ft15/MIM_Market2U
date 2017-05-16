@@ -5,21 +5,18 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
+import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.StackView;
+import android.widget.Toast;
 
 import com.example.yeong.market2u.MIM_Model.OrderModel;
-import com.example.yeong.market2u.MIM_Model.OrderedItemModel;
 import com.example.yeong.market2u.MIM_Model.ProductModel;
 import com.example.yeong.market2u.MIM_Model.ShoppingCartModel;
 import com.example.yeong.market2u.MIM_Model.UserModel;
-import com.example.yeong.market2u.MIM_OrderProduct.ShippingDetailsActivity;
-import com.example.yeong.market2u.MIM_SearchProduct.ProductList;
 
 import java.util.ArrayList;
 
@@ -33,6 +30,10 @@ public final class MIMController {
     private ShoppingCartModel shoppingCart = ShoppingCartModel.getInstance();
     private OrderModel order = OrderModel.getInstance();
     private ProgressDialog mProgressDialog;
+    private Toast toast;
+    private SharedPreferences prefs;
+    private String current_user_id;
+
 
     private MIMController() {
 
@@ -53,6 +54,7 @@ public final class MIMController {
         origin.startActivity(new Intent(origin, destination));
     }
 
+
     public static void navigateTo(Context origin, Class destination,
                                   String extraName, Object[] extraObjectArray) {
         origin.startActivity(new Intent(origin, destination)
@@ -70,6 +72,17 @@ public final class MIMController {
 
         origin.startActivity(new Intent(origin, destination)
                 .putExtra(extraName, cartHasItem));
+    }
+
+    public void setCurrentUser(String id, Context context){
+        prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefs.edit().putString("current_user", id).commit();
+        this.current_user_id = id;
+    }
+
+    public String getCurrentUser(){
+        current_user_id = prefs.getString("current_user","");
+        return current_user_id;
     }
 
     public static ArrayList<ShoppingCartModel> valuePasser() {
@@ -99,27 +112,23 @@ public final class MIMController {
     public void signInProcess(EditText mEmailField, EditText mPasswordField, Context context) {
         validateForm(mEmailField, mPasswordField);
 
-        ProgressDialog load = new ProgressDialog(context);
-        load.show();
-
+        showProgressDialog(context, true);
         user.signInValidationInAuthentication
                 (mEmailField.getText().toString(), mPasswordField.getText().toString(), context);
-
-        load.dismiss();
+        showProgressDialog(context, false);
+        // toast.makeText(context, "Successfully logged in!", Toast.LENGTH_SHORT).show();
     }
 
     public void signUpProcess(EditText mEmailField, EditText mPasswordField,
                               EditText mFirstName, EditText mLastName, Context context) {
         validateForm(mEmailField, mPasswordField, mFirstName, mLastName);
 
-        ProgressDialog load = new ProgressDialog(context);
-        load.show();
+        showProgressDialog(context, true);
 
         user.createUserAccountInAuthentication(mEmailField.getText().toString(),
                 mPasswordField.getText().toString(), mFirstName.getText().toString(),
                 mLastName.getText().toString(), context);
 
-        load.dismiss();
     }
 
     private boolean validateForm(EditText mEmailField, EditText mPasswordField) {
@@ -208,6 +217,7 @@ public final class MIMController {
         }
 
         // It's not working
+        // Why? XD
         if (mProductImage.getDrawable() == null) {
             new AlertDialog.Builder(context).setTitle("Attention")
                     .setMessage("Product image is required.")
@@ -224,14 +234,19 @@ public final class MIMController {
         return result;
     }
 
-    private void showProgressDialog(Context context) {
+    private void showProgressDialog(Context context, boolean status) {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(context);
             mProgressDialog.setCancelable(false);
             mProgressDialog.setMessage("Loading...");
         }
 
-        mProgressDialog.show();
+        if(status == true){
+            mProgressDialog.show();
+        }else{
+            mProgressDialog.dismiss();
+        }
+
     }
 
     public void addProductProcess(EditText mProductName, EditText mProductDescription,
@@ -240,13 +255,15 @@ public final class MIMController {
         validateForm(mProductName, mProductDescription, mProductPrice, mProductRemainingQuantity,
                 mProductImage, context);
 
-        showProgressDialog(context);
+        showProgressDialog(context, true);
 
         product.addNewProduct(mProductName.getText().toString(),
                 mProductDescription.getText().toString(),
                 Integer.parseInt(mProductRemainingQuantity.getText().toString()),
                 Double.parseDouble(mProductPrice.getText().toString()),
                 mImageUri, user.getUserKey());
+
+        toast.makeText(context, "Product Added!", Toast.LENGTH_SHORT).show();
     }
 
     // TODO: Haven't start this method
@@ -255,35 +272,65 @@ public final class MIMController {
     }
 
     public void retrieveProductProcess(Context context, String productID) {
-        showProgressDialog(context);
+        showProgressDialog(context, true);
         // TODO: Properly set the productID
         product.retrieveProduct(productID, context);
     }
 
     public void retrieveAllProductProcess(Context context) {
-        showProgressDialog(context);
+        showProgressDialog(context, true);
         product.all(context);
     }
 
     public void addToCartProcess(Object[] productDetails, int productOrderedQuantity, Context context) {
-        showProgressDialog(context);
+        showProgressDialog(context, true);
+
+        if(current_user_id == null || current_user_id == ""){
+            current_user_id = "eg8ixXm5SuSLj6tsNFfBJnSEcfB3";
+        }else{
+            current_user_id = getCurrentUser();
+        }
 
         // TODO: Properly get the userKey using Firebase method
-        shoppingCart.addToCart(productDetails, productOrderedQuantity, "eg8ixXm5SuSLj6tsNFfBJnSEcfB3");
+        shoppingCart.addToCart(productDetails, productOrderedQuantity, current_user_id);
+
     }
 
     public void showShoppingCartProcess(Context context) {
-        showProgressDialog(context);
+        showProgressDialog(context, true);
 
-        shoppingCart.showShoppingCart("eg8ixXm5SuSLj6tsNFfBJnSEcfB3", context);
+        if(current_user_id == null || current_user_id == ""){
+            current_user_id = "eg8ixXm5SuSLj6tsNFfBJnSEcfB3";
+        }else{
+            current_user_id = getCurrentUser();
+        }
+
+        shoppingCart.showShoppingCart(current_user_id, context);
+    }
+
+
+    public void removeShoppingCartItem(Context context, String itemKey){
+
+        showProgressDialog(context, true);
+        shoppingCart.deleteShoppingCartItem(context, itemKey);
+
+        showProgressDialog(context, false);// dismiss
+        toast.makeText(context, "Item removed from cart", Toast.LENGTH_SHORT).show();
+
     }
 
     public void makeOrderProcess(String recipientName, String shipAddress, String shipPhoneNum,
                                  Context context) {
-        showProgressDialog(context);
+        showProgressDialog(context, true);
+
+        if(current_user_id == null || current_user_id == ""){
+            current_user_id = "eg8ixXm5SuSLj6tsNFfBJnSEcfB3";
+        }else{
+            current_user_id = getCurrentUser();
+        }
 
         order.makeOrder(MIMController.valuePasser(), recipientName, shipAddress, shipPhoneNum,
-                "eg8ixXm5SuSLj6tsNFfBJnSEcfB3", context);
+                current_user_id, context);
     }
 
 
