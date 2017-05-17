@@ -22,15 +22,15 @@ public class Testing extends AppCompatActivity {
         setContentView(R.layout.activity_testing);
 
         TextView id = (TextView)findViewById(R.id.textToDisplay);
-        TextView email = (TextView)findViewById(R.id.textEmail);
+//        TextView email = (TextView)findViewById(R.id.textEmail);
 
 
         final Object[] uDetails = (Object[]) getIntent().getSerializableExtra("userDetails");
 
-        String user_id = MIMController.getInstance().getCurrentUser();
+        String user_id = MIMController.getInstance().getCurrentUser(Testing.this);
 
         id.setText(" ID : " + user_id );
-        email.setText(" EMAIL : " + uDetails[1].toString());
+        // email.setText(" EMAIL : " + uDetails[1].toString());
 
         Button btnSignOut = (Button)findViewById(R.id.btnSignOut);
         Button btnBrowseProduct = (Button)findViewById(R.id.btnBrowseProduct);
@@ -39,9 +39,9 @@ public class Testing extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
-
-                Intent backToSignInIntent = new Intent(Testing.this,SignInActivity.class);
-                startActivity(backToSignInIntent);
+//                Intent backToSignInIntent = new Intent(Testing.this,SignInActivity.class);
+//                startActivity(backToSignInIntent);
+                MIMController.getInstance().signOutProcess(Testing.this);
             }
         });
 
@@ -59,5 +59,12 @@ public class Testing extends AppCompatActivity {
                 MIMController.getInstance().retrieveAllProductProcess(Testing.this);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed(){
+
+        MIMController.getInstance().signOutProcess(Testing.this);
+
     }
 }

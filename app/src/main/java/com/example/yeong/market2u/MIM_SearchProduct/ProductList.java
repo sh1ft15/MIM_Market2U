@@ -15,6 +15,7 @@ import com.example.yeong.market2u.MIM_Model.ProductModel;
 import com.example.yeong.market2u.MIM_Model.Product_Model;
 import com.example.yeong.market2u.MainActivity;
 import com.example.yeong.market2u.R;
+import com.example.yeong.market2u.Testing;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -84,7 +85,15 @@ public class ProductList extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
-        controller.navigateTo(this, MainActivity.class);
+
+        String current_user_id = MIMController.getInstance().getCurrentUser(ProductList.this);
+
+        if(current_user_id == null || current_user_id == ""){
+            controller.navigateTo(this, MainActivity.class);
+        }else{
+            controller.navigateTo(this, Testing.class);
+        }
+
     }
 }
 

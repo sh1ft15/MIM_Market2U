@@ -159,7 +159,6 @@ public final class UserModel {
                         Log.d("SignIn_Process", "Status: " + task.isSuccessful());
 
 
-
                         if (task.isSuccessful()) {
 
                             userDetails[0] = task.getResult().getUser().getUid();

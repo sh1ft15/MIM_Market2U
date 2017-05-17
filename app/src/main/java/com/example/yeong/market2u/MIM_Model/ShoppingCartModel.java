@@ -137,6 +137,8 @@ public final class ShoppingCartModel {
     public void showShoppingCart(final String userID, final Context context) {
         Query query = mDatabase.orderByChild("userID").equalTo(userID);
 
+        cart.clear();
+
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

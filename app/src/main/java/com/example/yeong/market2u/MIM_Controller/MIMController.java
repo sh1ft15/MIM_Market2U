@@ -17,6 +17,7 @@ import com.example.yeong.market2u.MIM_Model.OrderModel;
 import com.example.yeong.market2u.MIM_Model.ProductModel;
 import com.example.yeong.market2u.MIM_Model.ShoppingCartModel;
 import com.example.yeong.market2u.MIM_Model.UserModel;
+import com.example.yeong.market2u.MainActivity;
 
 import java.util.ArrayList;
 
@@ -25,14 +26,14 @@ public final class MIMController {
     private static ArrayList<ShoppingCartModel> cart;
     private static ArrayList<ProductModel> products;
     private static OrderModel orderFromDB;
+    private static SharedPreferences prefs;
     private UserModel user = UserModel.getInstance();
     private ProductModel product = ProductModel.getInstance();
     private ShoppingCartModel shoppingCart = ShoppingCartModel.getInstance();
     private OrderModel order = OrderModel.getInstance();
     private ProgressDialog mProgressDialog;
     private Toast toast;
-    private SharedPreferences prefs;
-    private String current_user_id;
+    private String current_user_id = null;
 
 
     private MIMController() {
@@ -75,14 +76,13 @@ public final class MIMController {
     }
 
     public void setCurrentUser(String id, Context context){
-        prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        prefs.edit().putString("current_user", id).commit();
-        this.current_user_id = id;
+        current_user_id = id;
     }
 
-    public String getCurrentUser(){
-        current_user_id = prefs.getString("current_user","");
+    public String getCurrentUser(Context context){
+
         return current_user_id;
+
     }
 
     public static ArrayList<ShoppingCartModel> valuePasser() {
@@ -129,6 +129,11 @@ public final class MIMController {
                 mPasswordField.getText().toString(), mFirstName.getText().toString(),
                 mLastName.getText().toString(), context);
 
+    }
+
+    public void signOutProcess(Context context){
+        current_user_id = null;
+        navigateTo(context, MainActivity.class);
     }
 
     private boolean validateForm(EditText mEmailField, EditText mPasswordField) {
@@ -291,23 +296,23 @@ public final class MIMController {
         showProgressDialog(context, true);
 
         if(current_user_id == null || current_user_id == ""){
-            current_user_id = "eg8ixXm5SuSLj6tsNFfBJnSEcfB3";
+            current_user_id = "ub8UxTiNjQO4S3smPdQFFZYdQOJ3";
         }else{
-            current_user_id = getCurrentUser();
+            current_user_id = getCurrentUser(context);
         }
 
         // TODO: Properly get the userKey using Firebase method
         shoppingCart.addToCart(productDetails, productOrderedQuantity, current_user_id);
-
+        toast.makeText(context, "Product Added to Cart", Toast.LENGTH_LONG).show();
     }
 
     public void showShoppingCartProcess(Context context) {
         showProgressDialog(context, true);
 
-        if(current_user_id == null || current_user_id == ""){
-            current_user_id = "eg8ixXm5SuSLj6tsNFfBJnSEcfB3";
+        if(current_user_id == null && current_user_id == "") {
+            current_user_id = "ub8UxTiNjQO4S3smPdQFFZYdQOJ3";
         }else{
-            current_user_id = getCurrentUser();
+            current_user_id = getCurrentUser(context);
         }
 
         shoppingCart.showShoppingCart(current_user_id, context);
@@ -329,9 +334,9 @@ public final class MIMController {
         showProgressDialog(context, true);
 
         if(current_user_id == null || current_user_id == ""){
-            current_user_id = "eg8ixXm5SuSLj6tsNFfBJnSEcfB3";
+            current_user_id = "ub8UxTiNjQO4S3smPdQFFZYdQOJ3";
         }else{
-            current_user_id = getCurrentUser();
+            current_user_id = getCurrentUser(context);
         }
 
         order.makeOrder(MIMController.valuePasser(), recipientName, shipAddress, shipPhoneNum,
