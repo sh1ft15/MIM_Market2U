@@ -38,12 +38,33 @@ public class ProductList extends AppCompatActivity {
 
 
         ListView listView = (ListView) findViewById(R.id.product_list_view);
-        EditText searchInput = (EditText) findViewById(R.id.search_product_input);
+        final EditText searchInput = (EditText) findViewById(R.id.search_product_input);
         Button searchBtn = (Button) findViewById(R.id.search_product_btn);
 
         if(product_lists.isEmpty()){
             product_lists = MIMController.get_products();
         }
+
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String query = "";
+                Toast toast = null;
+
+                query = searchInput.getText().toString().trim();
+
+//                if(query.isEmpty() || query.length() == 0 || query.equals("") || query == null) {
+//                    toast.makeText(ProductList.this, "Please enter the search input", Toast.LENGTH_LONG).show();
+//                }else {
+//                    MIMController.getInstance().searchProductProcess(ProductList.this, query);
+//                }
+
+                MIMController.getInstance().searchProductProcess(ProductList.this, query);
+
+
+
+            }
+        });
 
 
 

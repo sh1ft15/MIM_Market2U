@@ -282,6 +282,11 @@ public final class MIMController {
         product.all(context);
     }
 
+    public void searchProductProcess(Context context, String value){
+        showProgressDialog(context, true);
+        product.searchProduct(context, value);
+    }
+
     public void addToCartProcess(Object[] productDetails, int productOrderedQuantity, Context context) {
         showProgressDialog(context, true);
 

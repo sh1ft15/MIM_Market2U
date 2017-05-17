@@ -190,6 +190,56 @@ public final class ProductModel {
         });
     }
 
+    public void searchProduct(final  Context context, final String queryText){
+
+        Query query = mDatabase.orderByKey();
+
+        // clear first
+        product_lists.clear();
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+
+                    ProductModel product = postSnapshot.getValue(ProductModel.class);
+
+                    if(queryText != null && !queryText.isEmpty()) {
+
+                        if(product.getProductName().indexOf(queryText) != -1){
+                            product_lists.add(new ProductModel(
+                                    postSnapshot.getKey(),
+                                    product.getProductName(),
+                                    product.getProductPrice(),
+                                    product.getProductRemainingQuantity())
+                            );
+                        }
+                    }else {
+                        product_lists.add(new ProductModel(
+                                postSnapshot.getKey(),
+                                product.getProductName(),
+                                product.getProductPrice(),
+                                product.getProductRemainingQuantity())
+                        );
+                    }
+
+                }
+
+                MIMController.set_products(product_lists);
+                MIMController.navigateTo(context, ProductList.class);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.e(TAG, "Failed to read user", error.toException());
+            }
+        });
+
+    }
+
     // Added by Din
     public void all(final Context context) {
 
