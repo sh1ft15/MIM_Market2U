@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MIM_SearchProduct.MainFrameActivity"
+            android:name=".MIM_SearchProduct.ProductMenuActivity"
             android:label="@string/title_activity_product_menu"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MIM_SearchProduct.ProductList" />
@@ -39,7 +39,8 @@
         <activity android:name=".MIM_SearchProduct.ProductDetailsActivity" />
         <activity android:name=".MIM_OrderProduct.ShoppingCartActivity" />
         <activity android:name=".MIM_OrderProduct.ShippingDetailsActivity" />
-        <activity android:name=".MIM_ManagePayment.PaymentConfirmationActivity"></activity>
+        <activity android:name=".MIM_ManagePayment.PaymentConfirmationActivity" />
+        <activity android:name=".MIM_ManagePayment.MakePaymentActivity"></activity>
     </application>
 
 </manifest>

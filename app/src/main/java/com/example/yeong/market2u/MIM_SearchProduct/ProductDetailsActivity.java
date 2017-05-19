@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.yeong.market2u.MIM_Controller.MIMController;
+import com.example.yeong.market2u.MIM_OrderProduct.ShoppingCartActivity;
+import com.example.yeong.market2u.MainActivity;
 import com.example.yeong.market2u.R;
 
 public class ProductDetailsActivity extends AppCompatActivity {
@@ -30,12 +32,12 @@ public class ProductDetailsActivity extends AppCompatActivity {
     private TextView mProductQuantity;
     private NumberPicker mQuantityOrdered;
     private Button btnAddToCart;
-    private Button btnShoppingCart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
+        setTitle("Product Details");
 
         mProductImage = (ImageView) findViewById(R.id.product_image);
         mProductName = (TextView) findViewById(R.id.product_name);
@@ -44,19 +46,19 @@ public class ProductDetailsActivity extends AppCompatActivity {
         mProductQuantity = (TextView) findViewById(R.id.product_remaining_quantity);
         mQuantityOrdered = (NumberPicker) findViewById(R.id.ordered_quantity);
         btnAddToCart = (Button) findViewById(R.id.add_to_cart);
-        btnShoppingCart = (Button) findViewById(R.id.shopping_cart);
-
 
         // remove focus from search input
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
+        // Show back button
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Load the product details from Firebase
         Intent intent = getIntent();
         final Object[] pDetails = (Object[]) intent.getSerializableExtra("productDetails");
         mProductName.setText(pDetails[1].toString());
         mProductDescription.setText(pDetails[2].toString());
-        mProductPrice.setText("RM " + pDetails[3].toString());
+        mProductPrice.setText("RM " + String.format("%.2f", Double.parseDouble(pDetails[3].toString())));
         mProductQuantity.setText("Quantity : " + pDetails[4].toString());
         Glide.with(this).load(pDetails[5].toString()).into(mProductImage);
 
@@ -69,16 +71,29 @@ public class ProductDetailsActivity extends AppCompatActivity {
                 controller.addToCartProcess(pDetails, mQuantityOrdered.getValue(), productDetailsContext);
             }
         });
+    }
 
-        btnShoppingCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.product_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_search:
+                // TODO: Add search function
+                return true;
+            case R.id.menu_cart:
                 controller.showShoppingCartProcess(productDetailsContext);
-            }
-        });
-
-
-
+                return true;
+            case android.R.id.home:
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

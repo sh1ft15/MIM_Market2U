@@ -10,10 +10,6 @@ import android.widget.Toast;
 
 import com.example.yeong.market2u.MIM_Authentication.SignInActivity;
 import com.example.yeong.market2u.MIM_Controller.MIMController;
-import com.example.yeong.market2u.MIM_OrderProduct.CartList;
-import com.example.yeong.market2u.MIM_SearchProduct.MainFrameActivity;
-import com.example.yeong.market2u.MIM_SearchProduct.ProductDetailsActivity;
-import com.example.yeong.market2u.MIM_SearchProduct.ProductList;
 
 public class MainActivity extends AppCompatActivity {
 

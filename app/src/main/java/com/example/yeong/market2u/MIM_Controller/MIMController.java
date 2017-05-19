@@ -75,16 +75,6 @@ public final class MIMController {
                 .putExtra(extraName, cartHasItem));
     }
 
-    public void setCurrentUser(String id, Context context){
-        current_user_id = id;
-    }
-
-    public String getCurrentUser(Context context){
-
-        return current_user_id;
-
-    }
-
     public static ArrayList<ShoppingCartModel> valuePasser() {
         return cart;
     }
@@ -107,6 +97,16 @@ public final class MIMController {
 
     public static void valuePasserOrder(OrderModel orderDB) {
         orderFromDB = orderDB;
+    }
+
+    public void setCurrentUser(String id, Context context) {
+        current_user_id = id;
+    }
+
+    public String getCurrentUser(Context context) {
+
+        return current_user_id;
+
     }
 
     public void signInProcess(EditText mEmailField, EditText mPasswordField, Context context) {
@@ -342,6 +342,4 @@ public final class MIMController {
         order.makeOrder(MIMController.valuePasser(), recipientName, shipAddress, shipPhoneNum,
                 current_user_id, context);
     }
-
-
 }

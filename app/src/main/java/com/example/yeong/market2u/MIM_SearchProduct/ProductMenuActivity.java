@@ -1,9 +1,8 @@
 package com.example.yeong.market2u.MIM_SearchProduct;
 
+import android.content.Context;
+import android.media.Image;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -12,29 +11,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 
+import com.example.yeong.market2u.MIM_Controller.MIMController;
 import com.example.yeong.market2u.R;
 
-public class MainFrameActivity extends AppCompatActivity
+public class ProductMenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private Context productMenuContext = ProductMenuActivity.this;
+    private MIMController controller = MIMController.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_frame);
+        setContentView(R.layout.activity_product_menu);
 
         // For navigation drawer
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -45,9 +41,22 @@ public class MainFrameActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        // Initiate
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.MainFrameContainer,new ProductMenuFragment()).commit();
+        ImageView imgClothesCollection = (ImageView) findViewById(R.id.imgClothesCollection);
+        ImageView imgDressCollection = (ImageView) findViewById(R.id.imgDressesCollection);
+
+        imgClothesCollection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //controller.searchProcess("Cloth", productMenuContext);
+            }
+        });
+
+        imgDressCollection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //acontroller.searchProcess("Dress", productMenuContext);
+            }
+        });
     }
 
     // Done
@@ -80,8 +89,8 @@ public class MainFrameActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
 
         // This is for setting button
-        if (id == R.id.search) {
-            MenuItem cartIcon = (MenuItem)findViewById(R.id.cart);
+        if (id == R.id.menu_search) {
+            MenuItem cartIcon = (MenuItem) findViewById(R.id.menu_cart);
             cartIcon.setVisible(false);
         }
 
@@ -95,7 +104,7 @@ public class MainFrameActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            // Handle the camera action
+            MIMController.navigateTo(productMenuContext, ProductMenuActivity.class);
         } else if (id == R.id.nav_account) {
 
         } else if (id == R.id.nav_orders) {

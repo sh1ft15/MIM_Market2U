@@ -1,22 +1,16 @@
 package com.example.yeong.market2u.MIM_OrderProduct;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.example.yeong.market2u.MIM_Controller.MIMController;
 import com.example.yeong.market2u.MIM_Model.ShoppingCartModel;
-import com.example.yeong.market2u.MIM_OrderProduct.ShoppingCartActivity;
 import com.example.yeong.market2u.R;
 
 import java.util.ArrayList;
@@ -24,6 +18,14 @@ import java.util.ArrayList;
 public class ShoppingCartListAdapter extends ArrayAdapter<ShoppingCartModel> {
     public ShoppingCartListAdapter(Activity context, ArrayList<ShoppingCartModel> shoppingCart) {
         super(context, 0, shoppingCart);
+    }
+
+    private static String truncate(String str, int len) {
+        if (str.length() > len) {
+            return str.substring(0, len) + "...";
+        } else {
+            return str;
+        }
     }
 
     @Override
@@ -41,9 +43,9 @@ public class ShoppingCartListAdapter extends ArrayAdapter<ShoppingCartModel> {
         TextView txtCartItemName = (TextView) listItemView.findViewById(R.id.shopping_cart_item_name);
         TextView txtCartItemPrice = (TextView) listItemView.findViewById(R.id.shopping_cart_item_price);
         TextView txtCartItemQuantity = (TextView) listItemView.findViewById(R.id.shopping_cart_item_quantity);
-        Button btnRemoveItem = (Button) listItemView.findViewById(R.id.btnRemoveItem);
+        ImageButton btnRemoveItem = (ImageButton) listItemView.findViewById(R.id.btnRemoveItem);
 
-        String price = Double.toString(shoppingCart.getProductPrice());
+        String price = String.format("%.2f", shoppingCart.getProductPrice());
         String quantity = Integer.toString(shoppingCart.getProductOrderedQuantity());
 
         String productName = shoppingCart.getProductName();
@@ -65,14 +67,6 @@ public class ShoppingCartListAdapter extends ArrayAdapter<ShoppingCartModel> {
         });
 
         return listItemView;
-    }
-
-    private static String truncate(String str, int len) {
-        if (str.length() > len) {
-            return str.substring(0, len) + "...";
-        } else {
-            return str;
-        }
     }
 
 

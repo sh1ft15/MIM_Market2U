@@ -3,9 +3,11 @@ package com.example.yeong.market2u.MIM_OrderProduct;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.yeong.market2u.MIM_Controller.MIMController;
@@ -24,6 +26,9 @@ public class ShoppingCartActivity extends AppCompatActivity implements Serializa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_cart);
+        setTitle("Shopping Cart");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         Button btnMakeOrder = (Button) findViewById(R.id.btnOrder);
 
         Boolean cartHasItem = getIntent().getExtras().getBoolean("cartHasItem");
@@ -48,6 +53,17 @@ public class ShoppingCartActivity extends AppCompatActivity implements Serializa
 
         if(getIntent().hasExtra("status")){
             Toast.makeText(getApplicationContext(), getIntent().getStringExtra("status"), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                controller.navigateTo(this, ProductList.class);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 

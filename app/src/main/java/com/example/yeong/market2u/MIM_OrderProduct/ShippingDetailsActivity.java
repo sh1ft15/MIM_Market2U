@@ -25,6 +25,7 @@ public class ShippingDetailsActivity extends AppCompatActivity {
     private TextView txtShipCity;
     private TextView txtShipPhoneNum;
     private Spinner dlShipProvince;
+    /*
     private TextView txtBillName;
     private TextView txtBillAddress;
     private TextView txtBillPostcode;
@@ -32,12 +33,14 @@ public class ShippingDetailsActivity extends AppCompatActivity {
     private TextView txtBillPhoneNum;
     private Spinner dlBillProvince;
     private CheckBox chkBillToAnotherAddress;
+    */
     private Button btnContinue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shipping_details);
+        setTitle("Shipping Details");
 
         addItemInSpinnerProvince();
         // Initial Bill Address Fragment

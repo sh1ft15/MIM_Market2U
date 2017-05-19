@@ -1,6 +1,7 @@
 package com.example.yeong.market2u.MIM_ManagePayment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -53,7 +54,7 @@ public class PaymentConfirmationActivity extends AppCompatActivity {
         btnMakePayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                MIMController.navigateTo(paymentConfirmationContext, MakePaymentActivity.class);
             }
         });
     }
