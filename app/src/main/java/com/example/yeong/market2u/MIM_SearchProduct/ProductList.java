@@ -1,33 +1,21 @@
 package com.example.yeong.market2u.MIM_SearchProduct;
 
-import android.app.SearchManager;
-import android.content.Context;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.yeong.market2u.MIM_Controller.MIMController;
 import com.example.yeong.market2u.MIM_Model.ProductModel;
-import com.example.yeong.market2u.MIM_Model.Product_Model;
 import com.example.yeong.market2u.MainActivity;
 import com.example.yeong.market2u.R;
 import com.example.yeong.market2u.Testing;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
