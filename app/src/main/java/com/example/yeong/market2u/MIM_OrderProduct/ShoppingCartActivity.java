@@ -13,7 +13,9 @@ import android.widget.Toast;
 import com.example.yeong.market2u.MIM_Controller.MIMController;
 import com.example.yeong.market2u.MIM_Model.ShoppingCartModel;
 import com.example.yeong.market2u.MIM_SearchProduct.ProductList;
+import com.example.yeong.market2u.MainActivity;
 import com.example.yeong.market2u.R;
+import com.example.yeong.market2u.Testing;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -47,7 +49,15 @@ public class ShoppingCartActivity extends AppCompatActivity implements Serializa
         btnMakeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MIMController.navigateTo(shoppingCartContext, ShippingDetailsActivity.class);
+
+                String current_user_id = MIMController.getInstance().getCurrentUser(shoppingCartContext);
+
+                if(current_user_id == null || current_user_id == "" || current_user_id == "guest"){
+                    controller.navigateTo(shoppingCartContext, MainActivity.class, "status", "Please Login to Make an Order");
+                }else{
+                    controller.navigateTo(shoppingCartContext, ShippingDetailsActivity.class);
+                }
+
             }
         });
 

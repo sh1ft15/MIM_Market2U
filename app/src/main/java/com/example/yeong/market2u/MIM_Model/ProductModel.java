@@ -143,22 +143,30 @@ public final class ProductModel {
 
     public void addNewProduct(final String productName, final String productDescription,
                               final int productRemainingQuantity, final double productPrice,
-                              Uri selectedProductImageUri, final String userKey, final Context context) {
-        StorageReference photoRef = mStorage.child(selectedProductImageUri.getLastPathSegment());
+                              Uri selectedProductImageUri, final String userKey) {
+        if(selectedProductImageUri != null){
+            StorageReference photoRef = mStorage.child(selectedProductImageUri.getLastPathSegment());
+            photoRef.putFile(selectedProductImageUri).addOnSuccessListener
+                    (new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            @SuppressWarnings("VisibleForTests")
+                            Uri url = taskSnapshot.getDownloadUrl();
 
-        photoRef.putFile(selectedProductImageUri).addOnSuccessListener
-                (new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        @SuppressWarnings("VisibleForTests")
-                        Uri url = taskSnapshot.getDownloadUrl();
+                            setProductImageUrl(url.toString());
 
-                        setProductImageUrl(url.toString());
 
-                        setProductID(mDatabase.push().getKey());
+                        }
+                    });
+        }
 
-                        ProductModel product = new ProductModel(productName, productDescription,
-                                productRemainingQuantity, productPrice, getProductImageUrl(), userKey);
+        setProductID(mDatabase.push().getKey());
+
+        ProductModel product = new ProductModel(productName, productDescription,
+                productRemainingQuantity, productPrice, getProductImageUrl(), userKey);
+
+        mDatabase.child(getProductID()).setValue(product);
+
 
                         mDatabase.child(getProductID()).setValue(product);
 

@@ -37,8 +37,8 @@ public final class MIMController {
     private OrderModel order = OrderModel.getInstance();
     private ProgressDialog mProgressDialog;
     private Toast toast;
-    private String current_user_id = null;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private String current_user_id = "guest";
 
 
     private MIMController() {
@@ -278,18 +278,23 @@ public final class MIMController {
     public void addProductProcess(EditText mProductName, EditText mProductDescription,
                                   EditText mProductPrice, EditText mProductRemainingQuantity,
                                   ImageView mProductImage, Uri mImageUri, Context context) {
-        validateForm(mProductName, mProductDescription, mProductPrice, mProductRemainingQuantity,
-                mProductImage, context);
 
-        showProgressDialog(context, true);
+        boolean result = validateForm(mProductName, mProductDescription, mProductPrice, mProductRemainingQuantity,
+                                        mProductImage, context);
 
-        product.addNewProduct(mProductName.getText().toString(),
-                mProductDescription.getText().toString(),
-                Integer.parseInt(mProductRemainingQuantity.getText().toString()),
-                Double.parseDouble(mProductPrice.getText().toString()),
-                mImageUri, getCurrentUser(), context);
 
-        toast.makeText(context, "Product Added!", Toast.LENGTH_SHORT).show();
+        if(getCurrentUser(context) != "guest" && result == true){
+
+            showProgressDialog(context, true);
+
+            product.addNewProduct(mProductName.getText().toString(),
+                    mProductDescription.getText().toString(),
+                    Integer.parseInt(mProductRemainingQuantity.getText().toString()),
+                    Double.parseDouble(mProductPrice.getText().toString()),
+                    mImageUri, user.getUserKey());
+
+            toast.makeText(context, "Product Added!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     // TODO: Haven't start this method
@@ -317,21 +322,21 @@ public final class MIMController {
         showProgressDialog(context, true);
 
         if(current_user_id == null || current_user_id == ""){
-            current_user_id = "ub8UxTiNjQO4S3smPdQFFZYdQOJ3";
+            current_user_id = "guest"; //ub8UxTiNjQO4S3smPdQFFZYdQOJ3
         }else{
             current_user_id = getCurrentUser(context);
         }
 
         // TODO: Properly get the userKey using Firebase method
         shoppingCart.addToCart(productDetails, productOrderedQuantity, current_user_id);
-        toast.makeText(context, "Product Added to Cart", Toast.LENGTH_LONG).show();
+        toast.makeText(context, "Product Added to Cart", Toast.LENGTH_SHORT).show();
     }
 
     public void showShoppingCartProcess(Context context) {
         showProgressDialog(context, true);
 
         if(current_user_id == null && current_user_id == "") {
-            current_user_id = "ub8UxTiNjQO4S3smPdQFFZYdQOJ3";
+            current_user_id = "guest";
         }else{
             current_user_id = getCurrentUser(context);
         }
@@ -355,7 +360,7 @@ public final class MIMController {
         showProgressDialog(context, true);
 
         if(current_user_id == null || current_user_id == ""){
-            current_user_id = "ub8UxTiNjQO4S3smPdQFFZYdQOJ3";
+            current_user_id = "guest";
         }else{
             current_user_id = getCurrentUser(context);
         }
