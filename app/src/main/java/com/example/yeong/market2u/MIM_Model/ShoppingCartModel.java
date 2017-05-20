@@ -126,9 +126,15 @@ public final class ShoppingCartModel {
 
         double productPrice = productOrderedQuantity * Double.parseDouble(productDetails[3].toString());
 
+        String image_url = null;
+
+        if(productDetails[5] != null){
+            image_url = productDetails[5].toString();
+        }
+
         ShoppingCartModel shoppingCart = new ShoppingCartModel(userID, productDetails[0].toString(),
                 productDetails[1].toString(), productPrice,
-                productOrderedQuantity, productDetails[5].toString());
+                productOrderedQuantity, image_url);
 
         mDatabase.child(getShoppingCartID()).setValue(shoppingCart);
 

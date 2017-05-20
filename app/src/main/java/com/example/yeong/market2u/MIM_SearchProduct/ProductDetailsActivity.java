@@ -1,10 +1,12 @@
 package com.example.yeong.market2u.MIM_SearchProduct;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,7 +49,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         mQuantityOrdered = (NumberPicker) findViewById(R.id.ordered_quantity);
         btnAddToCart = (Button) findViewById(R.id.add_to_cart);
 
-        // remove focus from search input
+        // remove focus from  input
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         // Show back button
@@ -60,7 +62,15 @@ public class ProductDetailsActivity extends AppCompatActivity {
         mProductDescription.setText(pDetails[2].toString());
         mProductPrice.setText("RM " + String.format("%.2f", Double.parseDouble(pDetails[3].toString())));
         mProductQuantity.setText("Quantity : " + pDetails[4].toString());
-        Glide.with(this).load(pDetails[5].toString()).into(mProductImage);
+
+        if(pDetails[5] != null){
+            Glide.with(this).load(pDetails[5].toString()).into(mProductImage);
+        }else{
+            mProductImage.setImageResource(R.drawable.loading);
+        }
+
+
+
 
         mQuantityOrdered.setMinValue(1);
         mQuantityOrdered.setMaxValue(Integer.parseInt(pDetails[4].toString()));
@@ -76,6 +86,26 @@ public class ProductDetailsActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.product_menu, menu);
+
+        // Associate searchable configuration with the SearchView
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // Toast.makeText(ProductList.this, "TESTSTST", Toast.LENGTH_LONG).show();
+                MIMController.getInstance().searchProductProcess(ProductDetailsActivity.this, query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
         return true;
     }
 

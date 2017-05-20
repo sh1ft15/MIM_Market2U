@@ -29,6 +29,10 @@ public class Testing extends AppCompatActivity {
 
         String user_id = MIMController.getInstance().getCurrentUser(Testing.this);
 
+        if(user_id == "guest"){
+            MIMController.navigateTo(Testing.this, MainActivity.class);
+        }
+
         id.setText(" ID : " + user_id );
         // email.setText(" EMAIL : " + uDetails[1].toString());
 
