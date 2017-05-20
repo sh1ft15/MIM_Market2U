@@ -40,7 +40,9 @@
         <activity android:name=".MIM_OrderProduct.ShoppingCartActivity" />
         <activity android:name=".MIM_OrderProduct.ShippingDetailsActivity" />
         <activity android:name=".MIM_ManagePayment.PaymentConfirmationActivity" />
-        <activity android:name=".MIM_ManagePayment.MakePaymentActivity"></activity>
+        <activity android:name=".MIM_ManagePayment.MakePaymentActivity" />
+        <activity android:name=".MIM_ManageProduct.ProductSummaryActivity" />
+        <activity android:name=".MIM_ManageProduct.ManageProductActivity"></activity>
     </application>
 
 </manifest>

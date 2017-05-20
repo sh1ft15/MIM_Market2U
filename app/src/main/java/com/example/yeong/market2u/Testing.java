@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.example.yeong.market2u.MIM_Authentication.SignInActivity;
 import com.example.yeong.market2u.MIM_Controller.MIMController;
 import com.example.yeong.market2u.MIM_ManageProduct.AddProductActivity;
+import com.example.yeong.market2u.MIM_ManageProduct.ProductSummaryActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class Testing extends AppCompatActivity {
@@ -45,11 +46,11 @@ public class Testing extends AppCompatActivity {
             }
         });
 
-        Button btnAddProduct = (Button) findViewById(R.id.btnGoToAddProduct);
-        btnAddProduct.setOnClickListener(new View.OnClickListener() {
+        Button btnManageProduct = (Button) findViewById(R.id.btnGoToManageProduct);
+        btnManageProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Testing.this, AddProductActivity.class));
+                MIMController.getInstance().getProductSummaryProcess(Testing.this);
             }
         });
 
@@ -63,8 +64,6 @@ public class Testing extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
-
         MIMController.getInstance().signOutProcess(Testing.this);
-
     }
 }

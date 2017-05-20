@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,6 +38,8 @@ public class AddProductActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
+        setTitle("Add Product");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mProductName = (EditText) findViewById(R.id.txtProductName);
         mProductDescription = (EditText) findViewById(R.id.txtProductDescription);
@@ -97,6 +100,17 @@ public class AddProductActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

@@ -23,10 +23,14 @@ public class MainActivity extends AppCompatActivity {
         Button btnSignIn = (Button) findViewById(R.id.btnSignIn);
         TextView current_user = (TextView) findViewById(R.id.current_user_id);
 
+        //current_user.setText(MIMController.getInstance().getCurrentUser());
+
+        /*
         if( MIMController.getInstance().getCurrentUser(MainActivity.this) != null){
             // MIMController.navigateTo(MainActivity.this, Testing.class);
             current_user.setText("id = " + MIMController.getInstance().getCurrentUser(MainActivity.this));
-        };
+        }
+        */
 
 
         if(getIntent().hasExtra("status")){

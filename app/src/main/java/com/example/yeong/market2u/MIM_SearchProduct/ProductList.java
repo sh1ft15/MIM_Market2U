@@ -49,7 +49,7 @@ public class ProductList extends AppCompatActivity {
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String query = "";
+                String query;
                 Toast toast = null;
 
                 query = searchInput.getText().toString().trim();

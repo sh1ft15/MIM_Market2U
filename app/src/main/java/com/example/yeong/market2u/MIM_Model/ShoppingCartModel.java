@@ -178,7 +178,6 @@ public final class ShoppingCartModel {
         });
     }
 
-    //
     public void deleteShoppingCartItem(final Context context, String shoppingCartID){
 
         mDatabase.child(shoppingCartID).removeValue();

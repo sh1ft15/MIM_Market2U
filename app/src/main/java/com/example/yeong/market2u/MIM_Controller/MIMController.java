@@ -18,7 +18,10 @@ import com.example.yeong.market2u.MIM_Model.ProductModel;
 import com.example.yeong.market2u.MIM_Model.ShoppingCartModel;
 import com.example.yeong.market2u.MIM_Model.UserModel;
 import com.example.yeong.market2u.MainActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
+import java.security.PrivateKey;
 import java.util.ArrayList;
 
 public final class MIMController {
@@ -27,6 +30,7 @@ public final class MIMController {
     private static ArrayList<ProductModel> products;
     private static OrderModel orderFromDB;
     private static SharedPreferences prefs;
+    private static ProductModel productToPass;
     private UserModel user = UserModel.getInstance();
     private ProductModel product = ProductModel.getInstance();
     private ShoppingCartModel shoppingCart = ShoppingCartModel.getInstance();
@@ -34,6 +38,7 @@ public final class MIMController {
     private ProgressDialog mProgressDialog;
     private Toast toast;
     private String current_user_id = null;
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
 
     private MIMController() {
@@ -91,6 +96,14 @@ public final class MIMController {
         products = arrayList;
     }
 
+    public static ProductModel getProductToPass() {
+        return productToPass;
+    }
+
+    public static void setProductToPass(ProductModel product) {
+        productToPass = product;
+    }
+
     public static OrderModel valuePasserOrder() {
         return orderFromDB;
     }
@@ -104,9 +117,17 @@ public final class MIMController {
     }
 
     public String getCurrentUser(Context context) {
+        return current_user_id;
+    }
+
+    public String getCurrentUser() {
+        current_user_id = mAuth.getCurrentUser().getUid();
+
+        if (current_user_id.equals(null)) {
+            current_user_id = "You haven't sign in";
+        }
 
         return current_user_id;
-
     }
 
     public void signInProcess(EditText mEmailField, EditText mPasswordField, Context context) {
@@ -266,7 +287,7 @@ public final class MIMController {
                 mProductDescription.getText().toString(),
                 Integer.parseInt(mProductRemainingQuantity.getText().toString()),
                 Double.parseDouble(mProductPrice.getText().toString()),
-                mImageUri, user.getUserKey());
+                mImageUri, getCurrentUser(), context);
 
         toast.makeText(context, "Product Added!", Toast.LENGTH_SHORT).show();
     }
@@ -342,4 +363,20 @@ public final class MIMController {
         order.makeOrder(MIMController.valuePasser(), recipientName, shipAddress, shipPhoneNum,
                 current_user_id, context);
     }
+
+    public void getProductSummaryProcess(Context context) {
+        product.getProductSummary(getCurrentUser(), context);
+    }
+
+    public void updateProductProcess(String productID, String productName, String productDescription,
+                                     int productRemainingQuantity, double productPrice,
+                                     Uri newProductImageUri, String oldProductImageUrl, Context context) {
+        product.updateProduct(productID, productName, productDescription, productRemainingQuantity,
+                productPrice, newProductImageUri, oldProductImageUrl, getCurrentUser(), context);
+    }
+
+    public void deleteProductProcess(String productID, Context context) {
+        product.deleteProduct(productID, context);
+    }
 }
+

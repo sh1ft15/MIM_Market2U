@@ -68,8 +68,6 @@ public class ShoppingCartListAdapter extends ArrayAdapter<ShoppingCartModel> {
 
         return listItemView;
     }
-
-
 }
 
 

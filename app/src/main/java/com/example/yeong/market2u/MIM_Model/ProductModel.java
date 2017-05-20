@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.example.yeong.market2u.MIM_Controller.MIMController;
+import com.example.yeong.market2u.MIM_ManageProduct.ManageProductActivity;
+import com.example.yeong.market2u.MIM_ManageProduct.ProductSummaryActivity;
 import com.example.yeong.market2u.MIM_SearchProduct.ProductDetailsActivity;
 import com.example.yeong.market2u.MIM_SearchProduct.ProductList;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -52,8 +54,20 @@ public final class ProductModel {
         this.userKey = userKey;
     }
 
+    private ProductModel(String productID, String productName, String productDescription,
+                         int productRemainingQuantity, double productPrice,
+                         String productImageUrl, String userKey) {
+        this.productID = productID;
+        this.productName = productName;
+        this.productDescription = productDescription;
+        this.productPrice = productPrice;
+        this.productRemainingQuantity = productRemainingQuantity;
+        this.productImageUrl = productImageUrl;
+        this.userKey = userKey;
+    }
+
     // Added By Din (Just for my convenient)
-    public ProductModel(String productId, String productName, double productPrice, int productRemainingQuantity ) {
+    public ProductModel(String productId, String productName, double productPrice, int productRemainingQuantity) {
         this.productID = productId;
         this.productName = productName;
         this.productPrice = productPrice;
@@ -129,7 +143,7 @@ public final class ProductModel {
 
     public void addNewProduct(final String productName, final String productDescription,
                               final int productRemainingQuantity, final double productPrice,
-                              Uri selectedProductImageUri, final String userKey) {
+                              Uri selectedProductImageUri, final String userKey, final Context context) {
         StorageReference photoRef = mStorage.child(selectedProductImageUri.getLastPathSegment());
 
         photoRef.putFile(selectedProductImageUri).addOnSuccessListener
@@ -147,6 +161,8 @@ public final class ProductModel {
                                 productRemainingQuantity, productPrice, getProductImageUrl(), userKey);
 
                         mDatabase.child(getProductID()).setValue(product);
+
+                        getProductSummary(userKey, context);
                     }
                 });
     }
@@ -190,7 +206,7 @@ public final class ProductModel {
         });
     }
 
-    public void searchProduct(final  Context context, final String queryText){
+    public void searchProduct(final Context context, final String queryText) {
 
         Query query = mDatabase.orderByKey();
 
@@ -205,9 +221,9 @@ public final class ProductModel {
 
                     ProductModel product = postSnapshot.getValue(ProductModel.class);
 
-                    if(queryText != null && !queryText.isEmpty()) {
+                    if (queryText != null && !queryText.isEmpty()) {
 
-                        if(product.getProductName().indexOf(queryText) != -1){
+                        if (product.getProductName().indexOf(queryText) != -1) {
                             product_lists.add(new ProductModel(
                                     postSnapshot.getKey(),
                                     product.getProductName(),
@@ -215,7 +231,7 @@ public final class ProductModel {
                                     product.getProductRemainingQuantity())
                             );
                         }
-                    }else {
+                    } else {
                         product_lists.add(new ProductModel(
                                 postSnapshot.getKey(),
                                 product.getProductName(),
@@ -223,12 +239,9 @@ public final class ProductModel {
                                 product.getProductRemainingQuantity())
                         );
                     }
-
                 }
-
                 MIMController.set_products(product_lists);
                 MIMController.navigateTo(context, ProductList.class);
-
             }
 
             @Override
@@ -257,17 +270,14 @@ public final class ProductModel {
                     ProductModel product = postSnapshot.getValue(ProductModel.class);
 
                     product_lists.add(new ProductModel(
-                                    postSnapshot.getKey(),
-                                    product.getProductName(),
-                                    product.getProductPrice(),
-                                    product.getProductRemainingQuantity())
+                            postSnapshot.getKey(),
+                            product.getProductName(),
+                            product.getProductPrice(),
+                            product.getProductRemainingQuantity())
                     );
-
                 }
-
                 MIMController.set_products(product_lists);
                 MIMController.navigateTo(context, ProductList.class);
-
             }
 
             @Override
@@ -276,9 +286,85 @@ public final class ProductModel {
                 Log.e(TAG, "Failed to read user", error.toException());
             }
         });
+    }
 
+    public void getProductSummary(final String userKey, final Context context) {
+        Query query = mDatabase.orderByChild("userKey").equalTo(userKey);
 
+        product_lists.clear();
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapShot : dataSnapshot.getChildren()) {
+
+                    ProductModel product = postSnapShot.getValue(ProductModel.class);
+
+                    if (product.getUserKey().equals(userKey)) {
+                        product_lists.add(new ProductModel(postSnapShot.getKey(),
+                                product.getProductName(), product.getProductDescription(),
+                                product.getProductRemainingQuantity(), product.getProductPrice(),
+                                product.getProductImageUrl(), product.getUserKey()));
+                    }
+                }
+                MIMController.set_products(product_lists);
+                MIMController.navigateTo(context, ProductSummaryActivity.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, "Failed to read user", databaseError.toException());
+            }
+        });
+    }
+
+    public void updateProduct(final String productID, final String productName, final String productDescription,
+                              final int productRemainingQuantity, final double productPrice,
+                              Uri newProductImageUri, String oldProductImageUrl, final String userKey,
+                              final Context context) {
+
+        StorageReference mOldStorageUrl = FirebaseStorage.getInstance()
+                .getReferenceFromUrl(oldProductImageUrl);
+
+        mOldStorageUrl.delete();
+
+        StorageReference mNewStorageUrl = mStorage.child(newProductImageUri.getLastPathSegment());
+        mNewStorageUrl.putFile(newProductImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                @SuppressWarnings("VisibleForTests")
+                Uri url = taskSnapshot.getDownloadUrl();
+                setProductImageUrl(url.toString());
+
+                Query query = mDatabase.orderByKey();
+
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot postSnapShot : dataSnapshot.getChildren()) {
+                            if (postSnapShot.getKey().equals(productID)) {
+                                ProductModel product = new ProductModel(productName, productDescription,
+                                        productRemainingQuantity, productPrice, getProductImageUrl(), userKey);
+
+                                mDatabase.child(productID).setValue(product);
+                            }
+                        }
+                        getProductSummary(userKey, context);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        });
     }
 
 
+    public void deleteProduct(String productID, Context context) {
+        mDatabase.child(productID).removeValue();
+
+        MIMController.navigateTo(context, ProductSummaryActivity.class);
+    }
 }

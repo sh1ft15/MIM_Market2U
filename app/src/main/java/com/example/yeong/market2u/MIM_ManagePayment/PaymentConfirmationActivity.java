@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -27,6 +28,8 @@ public class PaymentConfirmationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_confirmation);
+        setTitle("Payment Confirmation");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TextView txtTotalPrice = (TextView) findViewById(R.id.txtTotalPrice);
         TextView txtRecipientName = (TextView) findViewById(R.id.recipient_name);
@@ -44,7 +47,7 @@ public class PaymentConfirmationActivity extends AppCompatActivity {
         txtRecipientName.setText(order.getDeliveryName());
         txtShippingAddress.setText(order.getDeliveryAddress());
         txtShippingPhoneNum.setText(order.getDeliveryPhoneNum());
-        txtTotalPrice.setText(Double.toString(totalPrice));
+        txtTotalPrice.setText(String.format("%.2f", totalPrice));
 
         ShoppingCartListAdapter adapter = new ShoppingCartListAdapter(this, orderedItem);
         ListView listView = (ListView) findViewById(R.id.payment_list_view);
@@ -57,5 +60,16 @@ public class PaymentConfirmationActivity extends AppCompatActivity {
                 MIMController.navigateTo(paymentConfirmationContext, MakePaymentActivity.class);
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

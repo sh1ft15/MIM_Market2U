@@ -39,7 +39,7 @@
         android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/btnGoToAddProduct"
+            android:id="@+id/btnGoToManageProduct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -47,7 +47,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             android:layout_weight="1"
-            android:text="Add Product" />
+            android:text="Manage Product" />
 
         <Button
             android:id="@+id/btnSignOut"
