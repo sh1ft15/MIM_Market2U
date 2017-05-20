@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.example.yeong.market2u.MIM_Controller.MIMController;
-import com.example.yeong.market2u.MIM_ManageProduct.ManageProductActivity;
 import com.example.yeong.market2u.MIM_ManageProduct.ProductSummaryActivity;
 import com.example.yeong.market2u.MIM_SearchProduct.ProductDetailsActivity;
 import com.example.yeong.market2u.MIM_SearchProduct.ProductList;
@@ -21,7 +20,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 public final class ProductModel {
     private static final String TAG = "Product Model";
@@ -143,8 +141,8 @@ public final class ProductModel {
 
     public void addNewProduct(final String productName, final String productDescription,
                               final int productRemainingQuantity, final double productPrice,
-                              Uri selectedProductImageUri, final String userKey) {
-        if(selectedProductImageUri != null){
+                              Uri selectedProductImageUri, final String userKey, Context context) {
+        if (selectedProductImageUri != null) {
             StorageReference photoRef = mStorage.child(selectedProductImageUri.getLastPathSegment());
             photoRef.putFile(selectedProductImageUri).addOnSuccessListener
                     (new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -168,12 +166,11 @@ public final class ProductModel {
         mDatabase.child(getProductID()).setValue(product);
 
 
-                        mDatabase.child(getProductID()).setValue(product);
+        mDatabase.child(getProductID()).setValue(product);
 
-                        getProductSummary(userKey, context);
-                    }
-                });
+        getProductSummary(userKey, context);
     }
+
 
     public void retrieveProduct(final String productID, final Context context) {
         Query query = mDatabase.orderByKey();

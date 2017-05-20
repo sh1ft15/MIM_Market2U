@@ -291,7 +291,7 @@ public final class MIMController {
                     mProductDescription.getText().toString(),
                     Integer.parseInt(mProductRemainingQuantity.getText().toString()),
                     Double.parseDouble(mProductPrice.getText().toString()),
-                    mImageUri, user.getUserKey());
+                    mImageUri, user.getUserKey(), context);
 
             toast.makeText(context, "Product Added!", Toast.LENGTH_SHORT).show();
         }
