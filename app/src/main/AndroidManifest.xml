@@ -16,14 +16,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data android:name="android.app.default_searchable" android:value="com.example.yeong.ProductList" />
+        <meta-data
+            android:name="android.app.default_searchable"
+            android:value="com.example.yeong.ProductList" />
+
         <activity
             android:name=".MIM_SearchProduct.ProductMenuActivity"
             android:label="@string/title_activity_product_menu"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".MIM_SearchProduct.ProductList" >
+        <activity android:name=".MIM_SearchProduct.ProductList">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -46,7 +50,10 @@
         <activity android:name=".MIM_ManagePayment.PaymentConfirmationActivity" />
         <activity android:name=".MIM_ManagePayment.MakePaymentActivity" />
         <activity android:name=".MIM_ManageProduct.ProductSummaryActivity" />
-        <activity android:name=".MIM_ManageProduct.ManageProductActivity"></activity>
+        <activity android:name=".MIM_ManageProduct.ManageProductActivity" />
+        <activity android:name=".MIM_ManageUser.ManageSellerActivity" />
+        <activity android:name=".MIM_ManageUser.UserAccountActivity" />
+        <activity android:name=".MIM_ManageUser.ApproveSellerActivity"></activity>
     </application>
 
 </manifest>

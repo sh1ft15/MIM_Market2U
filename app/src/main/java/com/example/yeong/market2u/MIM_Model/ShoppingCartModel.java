@@ -188,9 +188,7 @@ public final class ShoppingCartModel {
 
         mDatabase.child(shoppingCartID).removeValue();
 
-
         // MIMController.navigateTo(context, ShoppingCartActivity.class, "status", "Item in Cart Removed!");
         MIMController.getInstance().showShoppingCartProcess(context);
-
     }
 }

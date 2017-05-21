@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.yeong.market2u.Testing"
-    android:weightSum="1">
+    android:weightSum="1"
+    tools:context="com.example.yeong.market2u.Testing">
 
     <TextView
         android:id="@+id/textView15"
@@ -80,6 +80,15 @@
         android:layout_margin="10dp"
         android:background="@drawable/btn_border"
         android:text="Browse Product"
+        android:textColor="@android:color/black" />
+
+    <Button
+        android:id="@+id/btnGoToProductMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/btn_border"
+        android:text="Product Menu"
         android:textColor="@android:color/black" />
 
 </LinearLayout>

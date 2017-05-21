@@ -21,8 +21,8 @@ import java.util.ArrayList;
 public class ProductSummaryActivity extends AppCompatActivity {
     private Button btnAddProduct;
     private ListView listView;
-    private Context ProductSummaryContext = ProductSummaryActivity.this;
     private MIMController controller = MIMController.getInstance();
+    private Context ProductSummaryContext = ProductSummaryActivity.this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

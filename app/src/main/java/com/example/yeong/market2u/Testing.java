@@ -12,6 +12,7 @@ import com.example.yeong.market2u.MIM_Authentication.SignInActivity;
 import com.example.yeong.market2u.MIM_Controller.MIMController;
 import com.example.yeong.market2u.MIM_ManageProduct.AddProductActivity;
 import com.example.yeong.market2u.MIM_ManageProduct.ProductSummaryActivity;
+import com.example.yeong.market2u.MIM_SearchProduct.ProductMenuActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class Testing extends AppCompatActivity {
@@ -62,6 +63,14 @@ public class Testing extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MIMController.getInstance().retrieveAllProductProcess(Testing.this);
+            }
+        });
+
+        Button btnGoToProductMenu = (Button) findViewById(R.id.btnGoToProductMenu);
+        btnGoToProductMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MIMController.navigateTo(Testing.this, ProductMenuActivity.class);
             }
         });
     }

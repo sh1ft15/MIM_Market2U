@@ -25,15 +25,6 @@ public class ShippingDetailsActivity extends AppCompatActivity {
     private TextView txtShipCity;
     private TextView txtShipPhoneNum;
     private Spinner dlShipProvince;
-    /*
-    private TextView txtBillName;
-    private TextView txtBillAddress;
-    private TextView txtBillPostcode;
-    private TextView txtBillCity;
-    private TextView txtBillPhoneNum;
-    private Spinner dlBillProvince;
-    private CheckBox chkBillToAnotherAddress;
-    */
     private Button btnContinue;
 
     @Override
@@ -43,9 +34,6 @@ public class ShippingDetailsActivity extends AppCompatActivity {
         setTitle("Shipping Details");
 
         addItemInSpinnerProvince();
-        // Initial Bill Address Fragment
-        //getSupportFragmentManager().beginTransaction()
-        //        .replace(R.id.billAddressContainer, new BillAddressFragment()).commit();
 
         txtRecipientName = (TextView) findViewById(R.id.txtRecipientName);
         txtShipAddress = (TextView) findViewById(R.id.txtRecipientAddress);
@@ -53,44 +41,17 @@ public class ShippingDetailsActivity extends AppCompatActivity {
         txtShipCity = (TextView) findViewById(R.id.txtRecipientCity);
         dlShipProvince = (Spinner) findViewById(R.id.dlRecipientProvince);
         txtShipPhoneNum = (TextView) findViewById(R.id.txtRecipientMobileNum);
-        /*
-        txtBillName = (TextView) findViewById(R.id.txtBillName);
-        txtBillAddress = (TextView) findViewById(R.id.txtBillAddress);
-        txtBillCity = (TextView) findViewById(R.id.txtBillCity);
-        txtBillPostcode = (TextView) findViewById(R.id.txtBillPostcode);
-        dlBillProvince = (Spinner) findViewById(R.id.dlBillProvince);
-        txtBillPhoneNum = (TextView) findViewById(R.id.txtBillMobileNum);
-        */
         btnContinue = (Button) findViewById(R.id.btnContinue);
-        //chkBillToAnotherAddress = (CheckBox) findViewById(R.id.chkBillToAnotherAddress);
 
         btnContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String recipientName = txtRecipientName.getText().toString();
-                //String billName = txtBillName.getText().toString();
                 String shipPhoneNum = txtShipPhoneNum.getText().toString();
-                //String billPhoneNum = txtBillPhoneNum.getText().toString();
 
                 String shipAddress = txtShipAddress.getText().toString() + ", "
                         + txtShipPostcode.getText().toString() + " " + txtShipCity.getText().toString()
                         + ", " + dlShipProvince.getSelectedItem().toString();
-                /*
-                String billAddress;
-
-                if(chkBillToAnotherAddress.isChecked())
-                {
-                    billAddress = txtBillAddress.getText().toString() + ", "
-                            + txtBillPostcode.getText().toString()+", "
-                            +txtBillCity.getText().toString() + ", " + dlBillProvince.getSelectedItem().toString();
-                }
-                else
-                {
-                    billAddress = shipAddress;
-                }
-                */
-                //controller.makeOrderProcess(recipientName, billName, shipAddress, billAddress,
-                //        shipPhoneNum, billPhoneNum, shippingDetailsContext);
 
                 controller.makeOrderProcess(recipientName, shipAddress, shipPhoneNum,
                         shippingDetailsContext);

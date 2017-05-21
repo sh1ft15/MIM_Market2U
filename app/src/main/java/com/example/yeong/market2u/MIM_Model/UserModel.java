@@ -5,6 +5,9 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.yeong.market2u.MIM_Controller.MIMController;
+import com.example.yeong.market2u.MIM_ManageUser.ApproveSellerActivity;
+import com.example.yeong.market2u.MIM_ManageUser.ManageSellerActivity;
+import com.example.yeong.market2u.MIM_ManageUser.UserAccountActivity;
 import com.example.yeong.market2u.MainActivity;
 import com.example.yeong.market2u.Testing;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -18,6 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 /**
  * Created by yeong on 26/4/2017.
  */
@@ -29,15 +34,12 @@ public final class UserModel {
     private String emailAddress;
     private String firstName;
     private String lastName;
-    private String defaultShippingAddress;
-    private Boolean sellerStatus;
-    private String storeName;
-    private Object[] userDetails = new Object[2];
-
-
+    private String sellerStatus;
+    private Object[] userDetails = new Object[5];
+    private ArrayList<UserModel> user_list = new ArrayList<UserModel>();
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("User");
+    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("user");
 
     private UserModel() {
 
@@ -47,9 +49,16 @@ public final class UserModel {
         this.emailAddress = emailAddress;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.defaultShippingAddress = null;
-        this.sellerStatus = false;
-        this.storeName = null;
+        this.sellerStatus = "Inactive";
+    }
+
+    private UserModel(String userKey, String emailAddress, String firstName, String lastName,
+                      String sellerStatus) {
+        this.userKey = userKey;
+        this.emailAddress = emailAddress;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.sellerStatus = sellerStatus;
     }
 
     public static UserModel getInstance() {
@@ -95,28 +104,12 @@ public final class UserModel {
         this.lastName = lastName;
     }
 
-    public String getDefaultShippingAddress() {
-        return defaultShippingAddress;
-    }
-
-    public void setDefaultShippingAddress(String defaultShippingAddress) {
-        this.defaultShippingAddress = defaultShippingAddress;
-    }
-
-    public Boolean getSellerStatus() {
+    public String getSellerStatus() {
         return sellerStatus;
     }
 
-    public void setSellerStatus(Boolean sellerStatus) {
+    public void setSellerStatus(String sellerStatus) {
         this.sellerStatus = sellerStatus;
-    }
-
-    public String getStoreName() {
-        return storeName;
-    }
-
-    public void setStoreName(String storeName) {
-        this.storeName = storeName;
     }
 
     // Create a user in Firebase Authentication using email and password
@@ -138,23 +131,19 @@ public final class UserModel {
                         MIMController.navigateTo(context, Testing.class, "userKey", getUserKey());
                     }
                 });
-
     }
 
     // Create a new user node in Firebase Database
     private void createNewUserInDatabase(String userKey, String emailAddress,
                                          String firstName, String lastName) {
         UserModel user = new UserModel(emailAddress, firstName, lastName);
-        mDatabase.child("user").child(userKey).setValue(user);
 
-
+        mDatabase.child(userKey).setValue(user);
     }
 
     // Sign in authentication process in Firebase Authentication
     public void signInValidationInAuthentication(String emailAddress, String password,
                                                  final Context context) {
-
-
         mAuth.signInWithEmailAndPassword(emailAddress, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -166,23 +155,22 @@ public final class UserModel {
                             userDetails[0] = task.getResult().getUser().getUid();
                             userDetails[1] = task.getResult().getUser().getEmail();
 
-                            MIMController.getInstance().setCurrentUser(userDetails[0].toString(), context);
-                            MIMController.navigateTo(context, Testing.class, "userDetails", userDetails);
+                            if (task.getResult().getUser().getEmail().equals("admin@market2u.com")) {
+                                getAllUser(context);
+                            } else {
+                                MIMController.getInstance().setCurrentUser(userDetails[0].toString(), context);
+                                MIMController.navigateTo(context, Testing.class, "userDetails", userDetails);
+                            }
 
                         } else {
                             setUserKey(null);
                             MIMController.navigateTo(context, MainActivity.class, "status", "Incorrect login information!");
                         }
-
-
-
                     }
         });
     }
 
-    public void retrieveUser(final Context context, final String userKey){
-
-
+    public void retrieveUser(final String userKey, final Context context) {
         Query query = mDatabase.orderByKey();
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -195,17 +183,19 @@ public final class UserModel {
                         UserModel userFromDatabase = postSnapshot.getValue(UserModel.class);
 
                         setUserKey(userKey);
+                        setEmailAddress(userFromDatabase.emailAddress);
                         setFirstName(userFromDatabase.firstName);
                         setLastName(userFromDatabase.lastName);
+                        setSellerStatus(userFromDatabase.sellerStatus);
 
                         userDetails[0] = getUserKey();
-                        userDetails[1] = getFirstName();
-                        userDetails[2] = getLastName();
-
+                        userDetails[1] = getEmailAddress();
+                        userDetails[2] = getFirstName();
+                        userDetails[3] = getLastName();
+                        userDetails[4] = getSellerStatus();
                     }
                 }
-
-                MIMController.navigateTo(context, Testing.class, "userDetails", userDetails);
+                MIMController.navigateTo(context, UserAccountActivity.class, "userDetails", userDetails);
             }
 
             @Override
@@ -213,10 +203,68 @@ public final class UserModel {
                 // Failed to read value
             }
         });
-
-
     }
 
+    public void getAllUser(final Context context) {
+        Query query = mDatabase.orderByKey();
 
+        user_list.clear();
 
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    UserModel user = postSnapshot.getValue(UserModel.class);
+
+                    user_list.add(new UserModel(postSnapshot.getKey(), user.getEmailAddress(),
+                            user.getFirstName(), user.getLastName(), user.getSellerStatus()));
+                }
+                MIMController.setUserList(user_list);
+                MIMController.navigateTo(context, ManageSellerActivity.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void requestToBecomeSeller(String userKey, Context context) {
+        mDatabase.child(userKey).child("sellerStatus").setValue("Pending");
+        retrieveUser(userKey, context);
+    }
+
+    public void getSellerToApprove(final Context context) {
+        Query query = mDatabase.orderByKey();
+
+        user_list.clear();
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    UserModel user = postSnapshot.getValue(UserModel.class);
+
+                    if (user.getSellerStatus().equals("Pending")) {
+                        user_list.add(new UserModel(postSnapshot.getKey(), user.getEmailAddress(),
+                                user.getFirstName(), user.getLastName(), user.getSellerStatus()));
+                    }
+                }
+
+                MIMController.setUserList(user_list);
+                MIMController.navigateTo(context, ApproveSellerActivity.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void approveSeller(String userKey, Context context) {
+        mDatabase.child(userKey).child("sellerStatus").setValue("Active");
+        getSellerToApprove(context);
+    }
 }

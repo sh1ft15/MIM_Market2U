@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.example.yeong.market2u.MIM_Controller.MIMController;
+import com.example.yeong.market2u.MIM_ManagePayment.MakePaymentActivity;
 import com.example.yeong.market2u.MIM_ManageProduct.ProductSummaryActivity;
 import com.example.yeong.market2u.MIM_SearchProduct.ProductDetailsActivity;
 import com.example.yeong.market2u.MIM_SearchProduct.ProductList;
@@ -153,8 +154,6 @@ public final class ProductModel {
                             Uri url = taskSnapshot.getDownloadUrl();
 
                             setProductImageUrl(url.toString());
-
-
                         }
                     });
         }
@@ -373,11 +372,36 @@ public final class ProductModel {
         });
     }
 
-
     public void deleteProduct(String productID, Context context) {
         mDatabase.child(productID).removeValue();
 
         // MIMController.navigateTo(context, ProductSummaryActivity.class); // list wont update like this
         getProductSummary(MIMController.getInstance().getCurrentUser(), context);
+    }
+
+    // Haven't implement
+    public void reduceQuantity(final String productID, final int quantityOrdered, final Context context) {
+        Query query = mDatabase.orderByKey();
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapShot : dataSnapshot.getChildren()) {
+                    if (postSnapShot.getKey().equals(productID)) {
+                        ProductModel product = postSnapShot.getValue(ProductModel.class);
+
+                        int remainingQuantity = product.getProductRemainingQuantity() - quantityOrdered;
+
+                        mDatabase.child(productID).setValue(remainingQuantity);
+                    }
+                }
+                MIMController.navigateTo(context, MakePaymentActivity.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }

@@ -28,6 +28,7 @@ public final class MIMController {
     private static volatile MIMController instance;
     private static ArrayList<ShoppingCartModel> cart;
     private static ArrayList<ProductModel> products;
+    private static ArrayList<UserModel> user_list;
     private static OrderModel orderFromDB;
     private static SharedPreferences prefs;
     private static ProductModel productToPass;
@@ -108,6 +109,14 @@ public final class MIMController {
         return orderFromDB;
     }
 
+    public static ArrayList<UserModel> getUserList() {
+        return user_list;
+    }
+
+    public static void setUserList(ArrayList<UserModel> arrayList) {
+        user_list = arrayList;
+    }
+
     public static void valuePasserOrder(OrderModel orderDB) {
         orderFromDB = orderDB;
     }
@@ -130,6 +139,10 @@ public final class MIMController {
         }
 
         return current_user_id;
+    }
+
+    public String getCurrentUserId() {
+        return mAuth.getCurrentUser().getUid();
     }
 
     public void signInProcess(EditText mEmailField, EditText mPasswordField, Context context) {
@@ -353,7 +366,6 @@ public final class MIMController {
         shoppingCart.showShoppingCart(current_user_id, context);
     }
 
-
     public void removeShoppingCartItem(Context context, String itemKey){
 
         showProgressDialog(context, true);
@@ -391,6 +403,31 @@ public final class MIMController {
 
     public void deleteProductProcess(String productID, Context context) {
         product.deleteProduct(productID, context);
+    }
+
+    // TODO: Haven't implement
+    public void reduceQuantityProcess(String productID, int orderedQuantity, Context context) {
+        product.reduceQuantity(productID, orderedQuantity, context);
+    }
+
+    public void getUserDetails(Context context) {
+        user.retrieveUser(getCurrentUserId(), context);
+    }
+
+    public void requestToBecomeSellerProcess(Context context) {
+        user.requestToBecomeSeller(getCurrentUserId(), context);
+    }
+
+    public void getListOfSellerToApprove(Context context) {
+        user.getSellerToApprove(context);
+    }
+
+    public void approveSellerProcess(String userkey, Context context) {
+        user.approveSeller(userkey, context);
+    }
+
+    public void getAllUserProcess(Context context) {
+        user.getAllUser(context);
     }
 }
 

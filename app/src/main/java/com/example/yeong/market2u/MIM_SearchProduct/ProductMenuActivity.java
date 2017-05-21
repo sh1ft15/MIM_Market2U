@@ -54,7 +54,7 @@ public class ProductMenuActivity extends AppCompatActivity
         imgDressCollection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //acontroller.searchProcess("Dress", productMenuContext);
+                //controller.searchProcess("Dress", productMenuContext);
             }
         });
     }
@@ -105,7 +105,9 @@ public class ProductMenuActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             MIMController.navigateTo(productMenuContext, ProductMenuActivity.class);
+
         } else if (id == R.id.nav_account) {
+            controller.getUserDetails(productMenuContext);
 
         } else if (id == R.id.nav_orders) {
 
