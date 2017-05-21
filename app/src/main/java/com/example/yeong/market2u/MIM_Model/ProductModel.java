@@ -34,7 +34,7 @@ public final class ProductModel {
     private double productPrice;
     private String productImageUrl;
     private String userKey;
-    private Object[] productDetails = new Object[6];
+    private Object[] productDetails = new Object[7];
     private ArrayList<ProductModel> product_lists = new ArrayList<ProductModel>();
 
     public ProductModel() {
@@ -142,6 +142,7 @@ public final class ProductModel {
     public void addNewProduct(final String productName, final String productDescription,
                               final int productRemainingQuantity, final double productPrice,
                               Uri selectedProductImageUri, final String userKey, Context context) {
+
         if (selectedProductImageUri != null) {
             StorageReference photoRef = mStorage.child(selectedProductImageUri.getLastPathSegment());
             photoRef.putFile(selectedProductImageUri).addOnSuccessListener
@@ -165,8 +166,6 @@ public final class ProductModel {
 
         mDatabase.child(getProductID()).setValue(product);
 
-
-        mDatabase.child(getProductID()).setValue(product);
 
         getProductSummary(userKey, context);
     }
@@ -197,6 +196,7 @@ public final class ProductModel {
                         productDetails[3] = getProductPrice();
                         productDetails[4] = getProductRemainingQuantity();
                         productDetails[5] = getProductImageUrl();
+                        productDetails[6] = productFromDatabase.getUserKey();
                     }
                 }
 

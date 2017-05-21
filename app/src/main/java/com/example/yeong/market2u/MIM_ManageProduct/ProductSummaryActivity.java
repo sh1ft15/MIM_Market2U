@@ -10,7 +10,13 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.yeong.market2u.MIM_Controller.MIMController;
+import com.example.yeong.market2u.MIM_Model.ProductModel;
+import com.example.yeong.market2u.MIM_SearchProduct.ProductList;
+import com.example.yeong.market2u.MainActivity;
 import com.example.yeong.market2u.R;
+import com.example.yeong.market2u.Testing;
+
+import java.util.ArrayList;
 
 public class ProductSummaryActivity extends AppCompatActivity {
     private Button btnAddProduct;
@@ -28,9 +34,18 @@ public class ProductSummaryActivity extends AppCompatActivity {
         btnAddProduct = (Button) findViewById(R.id.add_new_product);
         listView = (ListView) findViewById(R.id.list_product_summary);
 
+        ArrayList<ProductModel> product_lists = MIMController.get_products();
+
+        if(product_lists.isEmpty()){
+            product_lists = MIMController.get_products();
+        }
+
         ManageProductListAdapter productSummaryList
-                = new ManageProductListAdapter(this, MIMController.get_products());
+                = new ManageProductListAdapter(this, product_lists);
         listView.setAdapter(productSummaryList);
+
+
+
 
         btnAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,10 +59,18 @@ public class ProductSummaryActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                this.finish();
+                controller.navigateTo(this, Testing.class);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onBackPressed(){
+
+        controller.navigateTo(this, Testing.class);
+
+
     }
 }

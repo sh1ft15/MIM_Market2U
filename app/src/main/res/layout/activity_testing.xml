@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.yeong.market2u.Testing">
+    tools:context="com.example.yeong.market2u.Testing"
+    android:weightSum="1">
 
     <TextView
         android:id="@+id/textView15"
@@ -47,7 +48,10 @@
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             android:layout_weight="1"
-            android:text="Manage Product" />
+            android:background="@color/black"
+            android:text="Manage Product"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btnSignOut"
@@ -58,9 +62,17 @@
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             android:layout_weight="1"
-            android:text="Sign Out" />
+            android:background="@color/black"
+            android:text="Sign Out"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
     </TableRow>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_margin="10dp"
+        android:background="@color/line_light_grey" />
     <Button
         android:id="@+id/btnBrowseProduct"
         android:layout_width="match_parent"

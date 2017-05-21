@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MIM_Market2U.iml" filepath="$PROJECT_DIR$/MIM_Market2U.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Market2U.iml" filepath="$PROJECT_DIR$/Market2U.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

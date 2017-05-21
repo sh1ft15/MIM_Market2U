@@ -32,7 +32,7 @@ public class AddProductActivity extends AppCompatActivity {
     private Button btnAddProductPhoto;
     private ImageView imageProduct;
     private Uri mImageUri;
-    private boolean added = false;
+    private boolean photo = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +46,7 @@ public class AddProductActivity extends AppCompatActivity {
         mProductPrice = (EditText) findViewById(R.id.txtProductPrice);
         mProductRemainingQuantity = (EditText) findViewById(R.id.txtProductRemainingQuantity);
         btnAddProduct = (Button) findViewById(R.id.btnAddProduct);
-        btnPreviewProduct = (Button) findViewById(R.id.btnPreviewProduct);
+        // btnPreviewProduct = (Button) findViewById(R.id.btnPreviewProduct);
         btnAddProductPhoto = (Button) findViewById(R.id.btnAddProductPhoto);
         imageProduct = (ImageView) findViewById(R.id.imageProduct);
 
@@ -55,23 +55,22 @@ public class AddProductActivity extends AppCompatActivity {
             public void onClick(View v) {
                 controller.addProductProcess(mProductName, mProductDescription, mProductPrice,
                         mProductRemainingQuantity, imageProduct, mImageUri, addProductContext);
-                added = true;
                 Toast.makeText(getApplicationContext(), "Product Added.", Toast.LENGTH_SHORT).show();
             }
         });
 
-        btnPreviewProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(added == true){
-                    controller.previewProductProcess();
-                }else{
-                    Toast.makeText(getApplicationContext(), "Product Not Yet Added.", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
+//        btnPreviewProduct.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                if(added == true){
+//                    controller.previewProductProcess();
+//                }else{
+//                    Toast.makeText(getApplicationContext(), "Product Not Yet Added.", Toast.LENGTH_SHORT).show();
+//                }
+//
+//            }
+//        });
 
         btnAddProductPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,8 +94,8 @@ public class AddProductActivity extends AppCompatActivity {
 
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), mImageUri);
-
                 imageProduct.setImageBitmap(bitmap);
+                photo = true;
             } catch (IOException e) {
                 e.printStackTrace();
             }

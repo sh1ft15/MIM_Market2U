@@ -46,6 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="8dp"
+        android:background="@drawable/btn_border"
         android:text="Manage"
         app:layout_constraintRight_toRightOf="parent"
         tools:layout_editor_absoluteY="16dp" />

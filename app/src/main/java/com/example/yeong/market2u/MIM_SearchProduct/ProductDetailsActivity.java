@@ -69,11 +69,14 @@ public class ProductDetailsActivity extends AppCompatActivity {
             mProductImage.setImageResource(R.drawable.loading);
         }
 
-
-
-
         mQuantityOrdered.setMinValue(1);
         mQuantityOrdered.setMaxValue(Integer.parseInt(pDetails[4].toString()));
+
+
+        // user owned the product -> cannot add to cart
+        if(pDetails[6].toString().equals(controller.getCurrentUser())){
+            btnAddToCart.setVisibility(View.INVISIBLE);
+        }
 
         btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override

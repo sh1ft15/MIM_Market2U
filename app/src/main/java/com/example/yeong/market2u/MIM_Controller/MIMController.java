@@ -124,7 +124,9 @@ public final class MIMController {
         current_user_id = mAuth.getCurrentUser().getUid();
 
         if (current_user_id.equals(null)) {
-            current_user_id = "You haven't sign in";
+            // change to guest
+            // guest can still browse item and add them to cart but cannot make an order
+            current_user_id = "guest";
         }
 
         return current_user_id;
@@ -142,6 +144,7 @@ public final class MIMController {
 
     public void signUpProcess(EditText mEmailField, EditText mPasswordField,
                               EditText mFirstName, EditText mLastName, Context context) {
+
         validateForm(mEmailField, mPasswordField, mFirstName, mLastName);
 
         showProgressDialog(context, true);
@@ -150,10 +153,13 @@ public final class MIMController {
                 mPasswordField.getText().toString(), mFirstName.getText().toString(),
                 mLastName.getText().toString(), context);
 
+        showProgressDialog(context, false);
+
+
     }
 
     public void signOutProcess(Context context){
-        current_user_id = null;
+        current_user_id = "guest";
         navigateTo(context, MainActivity.class);
     }
 
@@ -179,6 +185,7 @@ public final class MIMController {
     private boolean validateForm(EditText mEmailField, EditText mPasswordField,
                                  EditText mFirstName, EditText mLastName) {
         boolean result = true;
+
         if (TextUtils.isEmpty(mEmailField.getText().toString())) {
             mEmailField.setError("Required");
             result = false;
@@ -243,19 +250,18 @@ public final class MIMController {
         }
 
         // It's not working
-        // Why? XD
-        if (mProductImage.getDrawable() == null) {
-            new AlertDialog.Builder(context).setTitle("Attention")
-                    .setMessage("Product image is required.")
-                    .setNeutralButton("Back", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).show();
-
-            result = false;
-        }
+//        if (mProductImage.getDrawable() == null) {
+//            new AlertDialog.Builder(context).setTitle("Attention")
+//                    .setMessage("Product image is required.")
+//                    .setNeutralButton("Back", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            dialog.dismiss();
+//                        }
+//                    }).show();
+//
+//            result = false;
+//        }
 
         return result;
     }
@@ -279,21 +285,24 @@ public final class MIMController {
                                   EditText mProductPrice, EditText mProductRemainingQuantity,
                                   ImageView mProductImage, Uri mImageUri, Context context) {
 
-        boolean result = validateForm(mProductName, mProductDescription, mProductPrice, mProductRemainingQuantity,
+        validateForm(mProductName, mProductDescription, mProductPrice, mProductRemainingQuantity,
                                         mProductImage, context);
 
 
-        if(getCurrentUser(context) != "guest" && result == true){
+        if(getCurrentUser(context) != "guest"){
 
             showProgressDialog(context, true);
+
+            String user_id = user.getUserKey() == null? getCurrentUser() : user.getUserKey();
 
             product.addNewProduct(mProductName.getText().toString(),
                     mProductDescription.getText().toString(),
                     Integer.parseInt(mProductRemainingQuantity.getText().toString()),
                     Double.parseDouble(mProductPrice.getText().toString()),
-                    mImageUri, user.getUserKey(), context);
+                    mImageUri, user_id, context);
 
-            toast.makeText(context, "Product Added!", Toast.LENGTH_SHORT).show();
+
+            // toast.makeText(context, "Product Added!", Toast.LENGTH_SHORT).show();
         }
     }
 

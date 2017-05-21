@@ -122,6 +122,7 @@ public final class UserModel {
     // Create a user in Firebase Authentication using email and password
     public void createUserAccountInAuthentication(final String emailAddress, final String password,
      final String firstName, final String lastName, final Context context) {
+
         mAuth.createUserWithEmailAndPassword(emailAddress, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -137,14 +138,16 @@ public final class UserModel {
                         MIMController.navigateTo(context, Testing.class, "userKey", getUserKey());
                     }
                 });
+
     }
 
     // Create a new user node in Firebase Database
     private void createNewUserInDatabase(String userKey, String emailAddress,
                                          String firstName, String lastName) {
         UserModel user = new UserModel(emailAddress, firstName, lastName);
-
         mDatabase.child("user").child(userKey).setValue(user);
+
+
     }
 
     // Sign in authentication process in Firebase Authentication
@@ -157,7 +160,6 @@ public final class UserModel {
                     @Override
                     public void onComplete(@NonNull final Task<AuthResult> task) {
                         Log.d("SignIn_Process", "Status: " + task.isSuccessful());
-
 
                         if (task.isSuccessful()) {
 
