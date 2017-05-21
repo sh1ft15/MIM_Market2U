@@ -328,40 +328,47 @@ public final class ProductModel {
                               Uri newProductImageUri, String oldProductImageUrl, final String userKey,
                               final Context context) {
 
-        StorageReference mOldStorageUrl = FirebaseStorage.getInstance()
-                .getReferenceFromUrl(oldProductImageUrl);
 
-        mOldStorageUrl.delete();
 
-        StorageReference mNewStorageUrl = mStorage.child(newProductImageUri.getLastPathSegment());
-        mNewStorageUrl.putFile(newProductImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        if(oldProductImageUrl != null){
+            StorageReference mOldStorageUrl = FirebaseStorage.getInstance()
+                    .getReferenceFromUrl(oldProductImageUrl);
+            mOldStorageUrl.delete();
+
+            StorageReference mNewStorageUrl = mStorage.child(newProductImageUri.getLastPathSegment());
+            mNewStorageUrl.putFile(newProductImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    @SuppressWarnings("VisibleForTests")
+                    Uri url = taskSnapshot.getDownloadUrl();
+                    setProductImageUrl(url.toString());
+
+
+                }
+            });
+
+        }
+
+
+        Query query = mDatabase.orderByKey();
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                @SuppressWarnings("VisibleForTests")
-                Uri url = taskSnapshot.getDownloadUrl();
-                setProductImageUrl(url.toString());
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapShot : dataSnapshot.getChildren()) {
+                    if (postSnapShot.getKey().equals(productID)) {
+                        ProductModel product = new ProductModel(productName, productDescription,
+                                productRemainingQuantity, productPrice, getProductImageUrl(), userKey);
 
-                Query query = mDatabase.orderByKey();
-
-                query.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot postSnapShot : dataSnapshot.getChildren()) {
-                            if (postSnapShot.getKey().equals(productID)) {
-                                ProductModel product = new ProductModel(productName, productDescription,
-                                        productRemainingQuantity, productPrice, getProductImageUrl(), userKey);
-
-                                mDatabase.child(productID).setValue(product);
-                            }
-                        }
-                        getProductSummary(userKey, context);
+                        mDatabase.child(productID).setValue(product);
                     }
+                }
+                getProductSummary(userKey, context);
+            }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-                    }
-                });
             }
         });
     }
@@ -370,6 +377,7 @@ public final class ProductModel {
     public void deleteProduct(String productID, Context context) {
         mDatabase.child(productID).removeValue();
 
-        MIMController.navigateTo(context, ProductSummaryActivity.class);
+        // MIMController.navigateTo(context, ProductSummaryActivity.class); // list wont update like this
+        getProductSummary(MIMController.getInstance().getCurrentUser(), context);
     }
 }

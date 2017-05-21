@@ -190,7 +190,6 @@
             app:layout_constraintTop_toBottomOf="@+id/btnEditProductImage" />
 
 
-
         <Button
             android:id="@+id/btnConfirmChanges"
             android:layout_width="0dp"
@@ -202,7 +201,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/btn_border"
-            android:text="Confirim Changes"
+            android:text="Confirm Changes"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
