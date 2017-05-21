@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.yeong.market2u.MIM_Model.OrderModel;
+import com.example.yeong.market2u.MIM_Model.OrderedItemModel;
 import com.example.yeong.market2u.MIM_Model.ProductModel;
 import com.example.yeong.market2u.MIM_Model.ShoppingCartModel;
 import com.example.yeong.market2u.MIM_Model.UserModel;
@@ -29,6 +30,7 @@ public final class MIMController {
     private static ArrayList<ShoppingCartModel> cart;
     private static ArrayList<ProductModel> products;
     private static ArrayList<UserModel> user_list;
+    private static ArrayList<OrderedItemModel> orderedItemList;
     private static OrderModel orderFromDB;
     private static SharedPreferences prefs;
     private static ProductModel productToPass;
@@ -36,6 +38,7 @@ public final class MIMController {
     private ProductModel product = ProductModel.getInstance();
     private ShoppingCartModel shoppingCart = ShoppingCartModel.getInstance();
     private OrderModel order = OrderModel.getInstance();
+    private OrderedItemModel orderedItem = OrderedItemModel.getInstance();
     private ProgressDialog mProgressDialog;
     private Toast toast;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -117,6 +120,14 @@ public final class MIMController {
         user_list = arrayList;
     }
 
+    public static ArrayList<OrderedItemModel> getOrderedItemList() {
+        return orderedItemList;
+    }
+
+    public static void setOrderedItemList(ArrayList<OrderedItemModel> arrayList) {
+        orderedItemList = arrayList;
+    }
+
     public static void valuePasserOrder(OrderModel orderDB) {
         orderFromDB = orderDB;
     }
@@ -139,10 +150,6 @@ public final class MIMController {
         }
 
         return current_user_id;
-    }
-
-    public String getCurrentUserId() {
-        return mAuth.getCurrentUser().getUid();
     }
 
     public void signInProcess(EditText mEmailField, EditText mPasswordField, Context context) {
@@ -172,6 +179,7 @@ public final class MIMController {
     }
 
     public void signOutProcess(Context context){
+        FirebaseAuth.getInstance().signOut();
         current_user_id = "guest";
         navigateTo(context, MainActivity.class);
     }
@@ -411,11 +419,11 @@ public final class MIMController {
     }
 
     public void getUserDetails(Context context) {
-        user.retrieveUser(getCurrentUserId(), context);
+        user.retrieveUser(getCurrentUser(), context);
     }
 
     public void requestToBecomeSellerProcess(Context context) {
-        user.requestToBecomeSeller(getCurrentUserId(), context);
+        user.requestToBecomeSeller(getCurrentUser(), context);
     }
 
     public void getListOfSellerToApprove(Context context) {
@@ -428,6 +436,10 @@ public final class MIMController {
 
     public void getAllUserProcess(Context context) {
         user.getAllUser(context);
+    }
+
+    public void showAllProductOrdered(Context context) {
+        orderedItem.showAllProductOrdered(getCurrentUser(), context);
     }
 }
 

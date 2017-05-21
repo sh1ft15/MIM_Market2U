@@ -1,11 +1,25 @@
 package com.example.yeong.market2u.MIM_Model;
 
+import android.content.Context;
+
+import com.example.yeong.market2u.MIM_Controller.MIMController;
+import com.example.yeong.market2u.MIM_OrderProduct.OrderDetailsActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+
 /**
  * Created by yeong on 26/4/2017.
  */
 
 public class OrderedItemModel {
 
+    public static volatile OrderedItemModel instance;
     private String orderedItemID;
     private String productID;
     private String orderID;
@@ -15,6 +29,8 @@ public class OrderedItemModel {
     private String productImageUrl;
     private String orderedItemStatus;
     private String userID;
+    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Ordered Item");
+    private ArrayList<OrderedItemModel> orderedItemList = new ArrayList<OrderedItemModel>();
 
     public OrderedItemModel() {
 
@@ -22,7 +38,7 @@ public class OrderedItemModel {
 
     public OrderedItemModel(String productID, String orderID, String productName,
                             double productPrice, int productOrderedQuantity,
-                            String productImageUrl, String orderedItemStatus) {
+                            String productImageUrl, String orderedItemStatus, String userID) {
         this.productID = productID;
         this.orderID = orderID;
         this.productName = productName;
@@ -30,6 +46,18 @@ public class OrderedItemModel {
         this.productOrderedQuantity = productOrderedQuantity;
         this.productImageUrl = productImageUrl;
         this.orderedItemStatus = orderedItemStatus;
+        this.userID = userID;
+    }
+
+    public static OrderedItemModel getInstance() {
+        if (instance == null) {
+            synchronized (OrderModel.class) {
+                if (instance == null) {
+                    instance = new OrderedItemModel();
+                }
+            }
+        }
+        return instance;
     }
 
     public String getOrderedItemID() {
@@ -94,5 +122,33 @@ public class OrderedItemModel {
 
     public void setOrderID(String orderID) {
         this.orderID = orderID;
+    }
+
+    public void showAllProductOrdered(final String userID, final Context context) {
+        Query query = mDatabase.orderByKey();
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    OrderedItemModel orderedItem = postSnapshot.getValue(OrderedItemModel.class);
+
+                    if (orderedItem.getUserID().equals(userID)) {
+                        orderedItemList.add(new OrderedItemModel(orderedItem.getProductID(),
+                                orderedItem.getOrderID(), orderedItem.getProductName(),
+                                orderedItem.getProductPrice(), orderedItem.getProductOrderedQuantity(),
+                                orderedItem.getProductImageUrl(), orderedItem.getOrderedItemStatus(),
+                                userID));
+                    }
+                }
+                MIMController.setOrderedItemList(orderedItemList);
+                MIMController.navigateTo(context, OrderDetailsActivity.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }

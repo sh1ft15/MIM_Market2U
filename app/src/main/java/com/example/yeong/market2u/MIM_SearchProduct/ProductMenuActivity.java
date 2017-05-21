@@ -45,14 +45,13 @@ public class ProductMenuActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        View header=navigationView.getHeaderView(0);
-        TextView userID = (TextView)header.findViewById(R.id.userIdentity);
+        View header = navigationView.getHeaderView(0);
+        TextView userID = (TextView) header.findViewById(R.id.userIdentity);
         userID.setText("ID : " + controller.getCurrentUser());
 
 
         ImageView imgClothesCollection = (ImageView) findViewById(R.id.imgClothesCollection);
         ImageView imgDressCollection = (ImageView) findViewById(R.id.imgDressesCollection);
-
 
         imgClothesCollection.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,8 +66,6 @@ public class ProductMenuActivity extends AppCompatActivity
                 controller.searchProductProcess(productMenuContext, "Dress");
             }
         });
-
-
     }
 
     // Done
@@ -81,7 +78,6 @@ public class ProductMenuActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -105,13 +101,8 @@ public class ProductMenuActivity extends AppCompatActivity
                 return false;
             }
         });
-
-
-
-
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -141,23 +132,28 @@ public class ProductMenuActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            controller.navigateTo(productMenuContext, ProductMenuActivity.class);
+            MIMController.navigateTo(productMenuContext, ProductMenuActivity.class);
+
         } else if (id == R.id.nav_account) {
-            controller.navigateTo(productMenuContext, Testing.class);
+            controller.getUserDetails(productMenuContext);
+
+        } else if (id == R.id.nav_orders) {
+            controller.showAllProductOrdered(productMenuContext);
+
         } else if (id == R.id.nav_cart) {
             controller.showShoppingCartProcess(ProductMenuActivity.this);
+
         } else if (id == R.id.nav_product) {
             controller.retrieveAllProductProcess(ProductMenuActivity.this);
+
         } else if (id == R.id.nav_my_product) {
             controller.getProductSummaryProcess(ProductMenuActivity.this);
+
+        } else if (id == R.id.nav_notification) {
+
+        } else if (id == R.id.sign_out) {
+            controller.signOutProcess(productMenuContext);
         }
-//        } else if (id == R.id.nav_orders) {
-//
-//        } else if (id == R.id.nav_notification) {
-//
-//        } else if (id == R.id.nav_settings) {
-//
-//        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

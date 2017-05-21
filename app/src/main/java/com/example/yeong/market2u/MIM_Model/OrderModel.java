@@ -141,7 +141,7 @@ public class OrderModel {
             OrderedItemModel orderedItem = new OrderedItemModel(cart.get(x).getProductID(),
                     getOrderID(), cart.get(x).getProductName(), cart.get(x).getProductPrice(),
                     cart.get(x).getProductOrderedQuantity(), cart.get(x).getProductImageUrl(),
-                    "Pending");
+                    "Pending", userID);
 
             mDatabaseOrderedItem.child(orderItemID).setValue(orderedItem);
         }

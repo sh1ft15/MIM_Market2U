@@ -47,7 +47,6 @@ public class Testing extends AppCompatActivity {
         btnSignOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
 //                Intent backToSignInIntent = new Intent(Testing.this,SignInActivity.class);
 //                startActivity(backToSignInIntent);
                 MIMController.getInstance().signOutProcess(Testing.this);

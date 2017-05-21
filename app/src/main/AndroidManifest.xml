@@ -53,7 +53,8 @@
         <activity android:name=".MIM_ManageProduct.ManageProductActivity" />
         <activity android:name=".MIM_ManageUser.ManageSellerActivity" />
         <activity android:name=".MIM_ManageUser.UserAccountActivity" />
-        <activity android:name=".MIM_ManageUser.ApproveSellerActivity"></activity>
+        <activity android:name=".MIM_ManageUser.ApproveSellerActivity" />
+        <activity android:name=".MIM_OrderProduct.OrderDetailsActivity"></activity>
     </application>
 
 </manifest>
