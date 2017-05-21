@@ -42,7 +42,7 @@ public class Testing extends AppCompatActivity {
         Button btnSignOut = (Button)findViewById(R.id.btnSignOut);
         Button btnBrowseProduct = (Button)findViewById(R.id.btnBrowseProduct);
         Button btnManageProduct = (Button) findViewById(R.id.btnGoToManageProduct);
-        Button btnProductMenu = (Button) findViewById(R.id.btnGotoProductMenu);
+        Button btnProductMenu = (Button) findViewById(R.id.btnGoToProductMenu);
 
         btnSignOut.setOnClickListener(new View.OnClickListener() {
             @Override
