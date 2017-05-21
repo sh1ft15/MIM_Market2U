@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.yeong.market2u.MIM_Controller.MIMController;
 import com.example.yeong.market2u.R;
@@ -46,6 +47,10 @@ public class SignInActivity extends AppCompatActivity {
                 controller.navigateTo(signInContext, SignUpActivity.class);
             }
         });
+
+        if(getIntent().hasExtra("status")){
+            Toast.makeText(getApplicationContext(), getIntent().getStringExtra("status"), Toast.LENGTH_SHORT).show();
+        }
 
 //        mSignInButton.setOnClickListener(new View.OnClickListener() {
 //            @Override

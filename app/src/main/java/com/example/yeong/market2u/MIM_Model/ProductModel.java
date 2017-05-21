@@ -227,7 +227,9 @@ public final class ProductModel {
 
                     if (queryText != null && !queryText.isEmpty()) {
 
-                        if (product.getProductName().indexOf(queryText) != -1) {
+
+                        if (product.getProductName().toLowerCase().indexOf(queryText.toLowerCase()) != -1) {
+
                             product_lists.add(new ProductModel(
                                     postSnapshot.getKey(),
                                     product.getProductName(),

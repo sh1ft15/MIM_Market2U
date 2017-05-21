@@ -22,6 +22,7 @@ public class Testing extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_testing);
+        setTitle("Profile");
 
         TextView id = (TextView)findViewById(R.id.textToDisplay);
 //        TextView email = (TextView)findViewById(R.id.textEmail);
@@ -40,6 +41,8 @@ public class Testing extends AppCompatActivity {
 
         Button btnSignOut = (Button)findViewById(R.id.btnSignOut);
         Button btnBrowseProduct = (Button)findViewById(R.id.btnBrowseProduct);
+        Button btnManageProduct = (Button) findViewById(R.id.btnGoToManageProduct);
+        Button btnProductMenu = (Button) findViewById(R.id.btnProductMenu);
 
         btnSignOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,7 +54,7 @@ public class Testing extends AppCompatActivity {
             }
         });
 
-        Button btnManageProduct = (Button) findViewById(R.id.btnGoToManageProduct);
+
         btnManageProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,8 +69,7 @@ public class Testing extends AppCompatActivity {
             }
         });
 
-        Button btnGoToProductMenu = (Button) findViewById(R.id.btnGoToProductMenu);
-        btnGoToProductMenu.setOnClickListener(new View.OnClickListener() {
+        btnProductMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MIMController.navigateTo(Testing.this, ProductMenuActivity.class);
@@ -77,6 +79,6 @@ public class Testing extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
-        MIMController.getInstance().signOutProcess(Testing.this);
+        // MIMController.getInstance().signOutProcess(Testing.this);
     }
 }

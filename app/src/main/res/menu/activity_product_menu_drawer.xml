@@ -11,24 +11,35 @@
             android:icon="@drawable/ic_account_box"
             android:title="@string/accountTitle" />
         <item
-            android:id="@+id/nav_orders"
-            android:icon="@drawable/ic_assignment"
-            android:title="@string/orderTitle" />
-        <item
             android:id="@+id/nav_cart"
             android:icon="@drawable/ic_shopping_cart"
             android:title="@string/cartTitle" />
         <item
+            android:id="@+id/nav_product"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Browse Product" />
+        <item
+            android:id="@+id/nav_my_product"
+            android:icon="@drawable/ic_assignment"
+            android:title="My Product" />
+        <item
+            android:id="@+id/nav_orders"
+            android:icon="@drawable/ic_assignment"
+            android:title="@string/orderTitle"
+            android:visible="false"/>
+        <item
             android:id="@+id/nav_notification"
             android:icon="@drawable/ic_notifications"
-            android:title="@string/notificationTitle" />
+            android:title="@string/notificationTitle"
+            android:visible="false"/>
     </group>
 
     <group>
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings"
-            android:title="@string/settingsTitle" />
+            android:title="@string/settingsTitle"
+            android:visible="false"/>
     </group>
 
 </menu>

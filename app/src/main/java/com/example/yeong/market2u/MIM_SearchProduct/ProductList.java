@@ -56,8 +56,13 @@ public class ProductList extends AppCompatActivity {
             }
         });
 
-        ProductListAdapter adapter = new ProductListAdapter(this, product_lists);
-        listView.setAdapter(adapter);
+
+
+        if (product_lists != null) {
+            ProductListAdapter adapter = new ProductListAdapter(this, product_lists);
+            listView.setAdapter(adapter);
+        }
+
         listView.setEmptyView(findViewById(R.id.product_list_empty));
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

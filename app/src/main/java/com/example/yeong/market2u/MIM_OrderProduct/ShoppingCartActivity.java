@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.example.yeong.market2u.MIM_Authentication.SignInActivity;
 import com.example.yeong.market2u.MIM_Controller.MIMController;
 import com.example.yeong.market2u.MIM_Model.ShoppingCartModel;
 import com.example.yeong.market2u.MIM_SearchProduct.ProductList;
@@ -53,7 +54,7 @@ public class ShoppingCartActivity extends AppCompatActivity implements Serializa
                 String current_user_id = MIMController.getInstance().getCurrentUser(shoppingCartContext);
 
                 if(current_user_id == null || current_user_id == "" || current_user_id == "guest"){
-                    controller.navigateTo(shoppingCartContext, MainActivity.class, "status", "Please Login to Make an Order");
+                    controller.navigateTo(shoppingCartContext, SignInActivity.class, "status", "Please Login to Make an Order");
                 }else{
                     controller.navigateTo(shoppingCartContext, ShippingDetailsActivity.class);
                 }
@@ -70,7 +71,8 @@ public class ShoppingCartActivity extends AppCompatActivity implements Serializa
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                controller.navigateTo(this, ProductList.class);
+                // controller.navigateTo(this, ProductList.class);
+                this.finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
