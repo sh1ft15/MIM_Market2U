@@ -23,21 +23,24 @@
         <activity
             android:name=".MIM_SearchProduct.ProductMenuActivity"
             android:label="@string/title_activity_product_menu"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".MIM_SearchProduct.ProductList">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".MainActivity">
+            android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+        <activity android:name=".MIM_SearchProduct.ProductListActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity"/>
+
         <activity android:name=".MIM_Authentication.SignInActivity" />
         <activity android:name=".Testing" />
         <activity android:name=".MIM_Authentication.SignUpActivity" />

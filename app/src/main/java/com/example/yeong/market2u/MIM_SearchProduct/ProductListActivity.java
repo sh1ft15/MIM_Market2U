@@ -13,13 +13,11 @@ import android.widget.ListView;
 
 import com.example.yeong.market2u.MIM_Controller.MIMController;
 import com.example.yeong.market2u.MIM_Model.ProductModel;
-import com.example.yeong.market2u.MainActivity;
 import com.example.yeong.market2u.R;
-import com.example.yeong.market2u.Testing;
 
 import java.util.ArrayList;
 
-public class ProductList extends AppCompatActivity {
+public class ProductListActivity extends AppCompatActivity {
 
     private MIMController controller = MIMController.getInstance();
 
@@ -52,7 +50,7 @@ public class ProductList extends AppCompatActivity {
 
                 query = searchInput.getText().toString().trim();
 
-                MIMController.getInstance().searchProductProcess(ProductList.this, query);
+                MIMController.getInstance().searchProductProcess(ProductListActivity.this, query);
             }
         });
 
@@ -68,7 +66,7 @@ public class ProductList extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Toast.makeText(getApplicationContext(), view.getTag().toString(), Toast.LENGTH_SHORT).show();
-                MIMController.getInstance().retrieveProductProcess(ProductList.this, view.getTag().toString());
+                MIMController.getInstance().retrieveProductProcess(ProductListActivity.this, view.getTag().toString());
             }
         });
     }
@@ -94,14 +92,7 @@ public class ProductList extends AppCompatActivity {
                 controller.showShoppingCartProcess(this);
                 return true;
             case android.R.id.home:
-                String current_user_id = MIMController.getInstance().getCurrentUser(ProductList.this);
-
-                if(current_user_id == null || current_user_id == "" || current_user_id == "guest"){
-                    controller.navigateTo(this, MainActivity.class);
-                }else{
-                    controller.navigateTo(this, Testing.class);
-                }
-
+                controller.navigateTo(this, ProductMenuActivity.class);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -113,13 +104,7 @@ public class ProductList extends AppCompatActivity {
     @Override
     public void onBackPressed(){
 
-        String current_user_id = MIMController.getInstance().getCurrentUser(ProductList.this);
-
-        if(current_user_id == null || current_user_id == ""){
-            controller.navigateTo(this, MainActivity.class);
-        }else{
-            controller.navigateTo(this, Testing.class);
-        }
+        controller.navigateTo(this, ProductMenuActivity.class);
 
     }
 }

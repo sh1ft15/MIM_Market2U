@@ -8,6 +8,7 @@ import com.example.yeong.market2u.MIM_Controller.MIMController;
 import com.example.yeong.market2u.MIM_ManageUser.ApproveSellerActivity;
 import com.example.yeong.market2u.MIM_ManageUser.ManageSellerActivity;
 import com.example.yeong.market2u.MIM_ManageUser.UserAccountActivity;
+import com.example.yeong.market2u.MIM_SearchProduct.ProductMenuActivity;
 import com.example.yeong.market2u.MainActivity;
 import com.example.yeong.market2u.Testing;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -159,7 +160,7 @@ public final class UserModel {
                                 getAllUser(context);
                             } else {
                                 MIMController.getInstance().setCurrentUser(userDetails[0].toString(), context);
-                                MIMController.navigateTo(context, Testing.class, "userDetails", userDetails);
+                                MIMController.navigateTo(context, ProductMenuActivity.class);
                             }
 
                         } else {

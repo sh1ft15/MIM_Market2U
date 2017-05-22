@@ -1,7 +1,6 @@
 package com.example.yeong.market2u.MIM_ManageProduct;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -11,8 +10,6 @@ import android.widget.ListView;
 
 import com.example.yeong.market2u.MIM_Controller.MIMController;
 import com.example.yeong.market2u.MIM_Model.ProductModel;
-import com.example.yeong.market2u.MIM_SearchProduct.ProductList;
-import com.example.yeong.market2u.MainActivity;
 import com.example.yeong.market2u.R;
 import com.example.yeong.market2u.Testing;
 

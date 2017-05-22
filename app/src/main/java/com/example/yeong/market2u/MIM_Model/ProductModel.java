@@ -8,7 +8,7 @@ import com.example.yeong.market2u.MIM_Controller.MIMController;
 import com.example.yeong.market2u.MIM_ManagePayment.MakePaymentActivity;
 import com.example.yeong.market2u.MIM_ManageProduct.ProductSummaryActivity;
 import com.example.yeong.market2u.MIM_SearchProduct.ProductDetailsActivity;
-import com.example.yeong.market2u.MIM_SearchProduct.ProductList;
+import com.example.yeong.market2u.MIM_SearchProduct.ProductListActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,6 +21,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public final class ProductModel {
     private static final String TAG = "Product Model";
@@ -247,7 +249,7 @@ public final class ProductModel {
                     }
                 }
                 MIMController.set_products(product_lists);
-                MIMController.navigateTo(context, ProductList.class);
+                MIMController.navigateTo(context, ProductListActivity.class);
             }
 
             @Override
@@ -283,7 +285,7 @@ public final class ProductModel {
                     );
                 }
                 MIMController.set_products(product_lists);
-                MIMController.navigateTo(context, ProductList.class);
+                MIMController.navigateTo(context, ProductListActivity.class);
             }
 
             @Override
@@ -372,6 +374,47 @@ public final class ProductModel {
 
             }
         });
+    }
+
+    public void updateStock(final String productID, final int quantitySold){
+
+        Query query = mDatabase.orderByKey();
+
+
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+                        for (DataSnapshot postSnapShot : dataSnapshot.getChildren()) {
+
+                            if (postSnapShot.getKey().equals(productID)) {
+
+                                ProductModel product = postSnapShot.getValue(ProductModel.class);
+
+                                int new_value = product.getProductRemainingQuantity() - quantitySold;
+
+                                Map<String,Object> taskMap = new HashMap<String,Object>();
+                                taskMap.put("productRemainingQuantity", new_value);
+
+                                mDatabase.child(productID).updateChildren(taskMap);
+                            }
+                        }
+
+
+
+                }
+
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+
+
     }
 
     public void deleteProduct(String productID, Context context) {

@@ -393,9 +393,10 @@ public final class MIMController {
         }else{
             current_user_id = getCurrentUser(context);
         }
-
+        // product.updateStock(MIMController.valuePasser());
         order.makeOrder(MIMController.valuePasser(), recipientName, shipAddress, shipPhoneNum,
                 current_user_id, context);
+
     }
 
     public void getProductSummaryProcess(Context context) {

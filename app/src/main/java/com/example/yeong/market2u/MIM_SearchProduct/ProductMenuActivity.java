@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.yeong.market2u.MIM_Authentication.SignInActivity;
 import com.example.yeong.market2u.MIM_Controller.MIMController;
 import com.example.yeong.market2u.MainActivity;
 import com.example.yeong.market2u.R;
@@ -47,7 +48,24 @@ public class ProductMenuActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
         TextView userID = (TextView) header.findViewById(R.id.userIdentity);
-        userID.setText("ID : " + controller.getCurrentUser());
+        userID.setText("ID : " + controller.getCurrentUser(ProductMenuActivity.this));
+
+        MenuItem signInBtn = navigationView.getMenu().findItem(R.id.sign_in);
+        MenuItem signOutBtn = navigationView.getMenu().findItem(R.id.sign_out);
+        MenuItem myOrder = navigationView.getMenu().findItem(R.id.nav_orders);
+        MenuItem myProduct = navigationView.getMenu().findItem(R.id.nav_my_product);
+        MenuItem myAccount = navigationView.getMenu().findItem(R.id.nav_account);
+
+        if(controller.getCurrentUser(ProductMenuActivity.this) != "guest"){
+            // logged in
+            signInBtn.setVisible(false);
+        }else{
+            // not logged in
+            signOutBtn.setVisible(false);
+            myOrder.setVisible(false);
+            myProduct.setVisible(false);
+            myAccount.setVisible(false);
+        }
 
 
         ImageView imgClothesCollection = (ImageView) findViewById(R.id.imgClothesCollection);
@@ -74,8 +92,6 @@ public class ProductMenuActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
         }
     }
 
@@ -91,7 +107,7 @@ public class ProductMenuActivity extends AppCompatActivity
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                // Toast.makeText(ProductList.this, "TESTSTST", Toast.LENGTH_LONG).show();
+                // Toast.makeText(ProductListActivity.this, "TESTSTST", Toast.LENGTH_LONG).show();
                 controller.searchProductProcess(ProductMenuActivity.this, query);
                 return false;
             }
@@ -101,6 +117,8 @@ public class ProductMenuActivity extends AppCompatActivity
                 return false;
             }
         });
+
+
         return true;
     }
 
@@ -116,13 +134,6 @@ public class ProductMenuActivity extends AppCompatActivity
                 return super.onOptionsItemSelected(item);
         }
 
-//        int id = item.getItemId();
-//        // This is for setting button
-//        if (id == R.id.menu_search) {
-//            MenuItem cartIcon = (MenuItem) findViewById(R.id.menu_cart);
-//            cartIcon.setVisible(false);
-//        }
-//        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -149,14 +160,20 @@ public class ProductMenuActivity extends AppCompatActivity
         } else if (id == R.id.nav_my_product) {
             controller.getProductSummaryProcess(ProductMenuActivity.this);
 
-        } else if (id == R.id.nav_notification) {
+        } else if (id == R.id.sign_in) {
+            controller.navigateTo(productMenuContext, SignInActivity.class);
 
         } else if (id == R.id.sign_out) {
             controller.signOutProcess(productMenuContext);
         }
 
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+
 }
+

@@ -3,6 +3,8 @@ package com.example.yeong.market2u.MIM_Authentication;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yeong.market2u.MIM_Controller.MIMController;
+import com.example.yeong.market2u.MIM_SearchProduct.ProductMenuActivity;
 import com.example.yeong.market2u.R;
 
 public class SignInActivity extends AppCompatActivity {
@@ -26,6 +29,9 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
         setTitle("Sign In");
+
+        // Show back button
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Views
         mEmailField = (EditText) findViewById(R.id.txtEmail);
@@ -52,23 +58,32 @@ public class SignInActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), getIntent().getStringExtra("status"), Toast.LENGTH_SHORT).show();
         }
 
-//        mSignInButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
+
     }
 
-/*
-        @Override
-        public void onStart() {
-            super.onStart();
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
 
-            // Check auth on Activity start by UserModel through Controller
-            if (mAuth.getCurrentUser() != null) {
-                //onAuthSuccess(mAuth.getCurrentUser());
-            }
+        getMenuInflater().inflate(R.menu.product_menu, menu);
+
+        // hide search & cart
+        MenuItem search = menu.findItem(R.id.menu_search);
+        MenuItem cart = menu.findItem(R.id.menu_cart);
+        search.setVisible(false);
+        cart.setVisible(false);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                controller.navigateTo(SignInActivity.this, ProductMenuActivity.class);
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-*/
+    }
 }

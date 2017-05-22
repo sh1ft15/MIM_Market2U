@@ -27,11 +27,11 @@
             android:icon="@drawable/ic_assignment"
             android:title="My Product" />
         <item
-            android:id="@+id/nav_notification"
-            android:icon="@drawable/ic_notifications"
-            android:title="@string/notificationTitle" />
-        <item
             android:id="@+id/sign_out"
             android:title="Sign Out" />
+        <item
+            android:id="@+id/sign_in"
+            android:title="Sign In" />
+
     </group>
 </menu>

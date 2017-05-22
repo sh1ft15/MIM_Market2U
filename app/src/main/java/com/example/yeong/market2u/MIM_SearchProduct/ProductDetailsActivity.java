@@ -3,7 +3,6 @@ package com.example.yeong.market2u.MIM_SearchProduct;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
@@ -14,13 +13,10 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.yeong.market2u.MIM_Controller.MIMController;
-import com.example.yeong.market2u.MIM_OrderProduct.ShoppingCartActivity;
-import com.example.yeong.market2u.MainActivity;
 import com.example.yeong.market2u.R;
 
 public class ProductDetailsActivity extends AppCompatActivity {
@@ -98,7 +94,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                // Toast.makeText(ProductList.this, "TESTSTST", Toast.LENGTH_LONG).show();
+                // Toast.makeText(ProductListActivity.this, "TESTSTST", Toast.LENGTH_LONG).show();
                 MIMController.getInstance().searchProductProcess(ProductDetailsActivity.this, query);
                 return false;
             }
@@ -131,6 +127,6 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed (){
-        controller.navigateTo(productDetailsContext, ProductList.class);
+        controller.navigateTo(productDetailsContext, ProductListActivity.class);
     }
 }

@@ -7,16 +7,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.yeong.market2u.MIM_Authentication.SignInActivity;
 import com.example.yeong.market2u.MIM_Controller.MIMController;
 import com.example.yeong.market2u.MIM_Model.ShoppingCartModel;
-import com.example.yeong.market2u.MIM_SearchProduct.ProductList;
-import com.example.yeong.market2u.MainActivity;
+import com.example.yeong.market2u.MIM_SearchProduct.ProductMenuActivity;
 import com.example.yeong.market2u.R;
-import com.example.yeong.market2u.Testing;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -71,8 +68,8 @@ public class ShoppingCartActivity extends AppCompatActivity implements Serializa
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                // controller.navigateTo(this, ProductList.class);
-                this.finish();
+                controller.navigateTo(this, ProductMenuActivity.class);
+                // this.finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -81,6 +78,6 @@ public class ShoppingCartActivity extends AppCompatActivity implements Serializa
 
     @Override
     public void onBackPressed(){
-        controller.navigateTo(this, ProductList.class);
+        controller.navigateTo(this, ProductMenuActivity.class);
     }
 }
